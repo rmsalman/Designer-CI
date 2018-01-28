@@ -35,6 +35,8 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/css/custom.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/css/buttons.dataTables.min.css'); ?>">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/daterangepicker.css'); ?>" />
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/admin/pages/css/pricing-table.css'); ?>" />
+
 
 
 <!-- matronic -->
@@ -95,7 +97,7 @@
 <!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
 <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
 <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
-<body class="page-header-fixed page-quick-sidebar-over-content page-sidebar-closed-hide-logo page-container-bg-solid" data-base-url="<?php echo base_url(); ?>">
+<body class="page-header-fixed page-quick-sidebar-over-content page-sidebar-closed-hide-logo" data-base-url="<?php echo base_url(); ?>">
 <!-- BEGIN HEADER -->
 <!-- BEGIN HEADER -->
 <div class="page-header -i navbar navbar-fixed-top">
@@ -169,10 +171,6 @@
 </div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-
-
-
-
   <!-- BEGIN SIDEBAR -->
   <div class="page-sidebar-wrapper">
     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
@@ -186,119 +184,22 @@
       <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
       <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
       <ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-        <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
-        <li class="sidebar-toggler-wrapper">
-          <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
-          <div class="sidebar-toggler">
-          </div>
-          <!-- END SIDEBAR TOGGLER BUTTON -->
-        </li>
-        <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
-        <li class="sidebar-search-wrapper">
-          <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
-          <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
-          <!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
-          <!-- <form class="sidebar-search " action="extra_search.html" method="POST">
-            <a href="javascript:;" class="remove">
-            <i class="icon-close"></i>
-            </a>
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-              <a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
-              </span>
-            </div>
-          </form> -->
-          <!-- END RESPONSIVE QUICK SEARCH FORM -->
-        </li>
-        <!-- <li class="start active open">
-          <a href="javascript:;">
-          <i class="icon-home"></i>
-          <span class="title">Dashboard</span>
-          <span class="selected"></span>
-          <span class="arrow open"></span>
-          </a>
-          <ul class="sub-menu">
-            <li class="active">
-              <a href="index-admin.html">
-              <i class="icon-bar-chart"></i>
-              Default Dashboard</a>
+        
+        <?php $this->load->view("include/menu");?>
+
+        <li class="<?=($this->router->method==="profile")?"active":"not-active"?>"> 
+          <a href="<?php echo base_url('user/profile');?>"> <i class="fa fa-user"></i> <span>My Account</span></a>
+        </li>      
+         <?php if(CheckPermission("users", "own_read")){ ?>
+            <li class="<?=($this->router->method==="userTable")?"active":"not-active"?>"> 
+                <a href="<?php echo base_url();?>user/userTable"> <i class="fa fa-users"></i> <span>Users</span></a>
+            </li>    
+          <?php } 
+         if(isset($this->session->userdata('user_details')[0]->user_type) && $this->session->userdata('user_details')[0]->user_type == 'admin'){ ?>    
+            <li class="<?=($this->router->class==="setting")?"active":"not-active"?>">
+                <a href="<?php echo base_url("setting"); ?>"><i class="fa fa-cogs"></i> <span>Settings</span></a>
             </li>
-            <li>
-              <a href="index_2.html">
-              <i class="icon-bulb"></i>
-              New Dashboard #1</a>
-            </li>
-            <li>
-              <a href="index_3.html">
-              <i class="icon-graph"></i>
-              New Dashboard #2</a>
-            </li>
-          </ul>
-        </li>  -->
-        <li class="start active open">
-              <a href="<?php echo base_url()?>">         
-                <span class="selected"></span>
-              <i class="icon-home"></i>
-              Dashboard</a>
-        </li>
-        <li class="start ">
-              <a href="<?php echo base_url('/plans')?>">
-              <i class="icon-briefcase"></i>
-              Plans</a>
-        </li>
-        <li class="start ">
-              <a href="<?php echo base_url('/orders/pending')?>">
-              <i class="icon-briefcase"></i>
-              Running projects</a>
-        </li>
-        <li class="start ">
-              <a href="<?php echo base_url('/orders/completed')?>">
-              <i class="icon-briefcase"></i>
-              Complete projects</a>
-        </li>
-        <li class="start ">
-              <a href="<?php echo base_url('/users')?>">
-              <i class="icon-briefcase"></i>
-              Clients</a>
-        <li class="start ">
-              <a href="<?php echo base_url('/plans/designers')?>">
-              <i class="icon-briefcase"></i>
-              Designers</a>
-        </li>
-        <li class="start ">
-              <a href="<?php echo base_url('/mailbox')?>">
-              <i class="icon-briefcase"></i>
-              Mail Box</a>
-        </li>
-  <li class="<?=($this->router->method==="profile")?"active":"not-active"?>"> 
-                <a href="<?php echo base_url('user/profile');?>"> <i class="fa fa-user"></i> <span>My Account</span></a>
-                </li>                
-                <?php $this->load->view("include/menu");?> 
-                
-               
-               <?php if(CheckPermission("users", "own_read")){ ?>
-                    <li class="<?=($this->router->method==="userTable")?"active":"not-active"?>"> 
-                        <a href="<?php echo base_url();?>user/userTable"> <i class="fa fa-users"></i> <span>Users</span></a>
-                    </li>    
-                <?php } 
-                 if(isset($this->session->userdata('user_details')[0]->user_type) && $this->session->userdata('user_details')[0]->user_type == 'admin'){ ?>    
-                    <li class="<?=($this->router->class==="setting")?"active":"not-active"?>">
-                        <a href="<?php echo base_url("setting"); ?>"><i class="fa fa-cogs"></i> <span>Settings</span></a>
-                    </li>
-         
-                    <li class="<?php echo ($this->router->class==="Templates")?"active":"not-active"?>">
-                        <a href="<?php echo base_url("Templates"); ?>"><i class="fa fa-cubes"></i> <span>Templates</span></a>
-                    </li>
-                  <?php }  if(CheckPermission("invoice", "own_read")){ ?>   
-                    <li class="<?=($this->router->class==="invoice")?"active":"not-active"?>">
-                        <a href="<?php echo base_url("invoice/view"); ?>"><i class="fa fa-list-alt"></i> <span>Invoice</span></a>
-                    </li>
-
-               <?php  } ?>
-
-
-
+          <?php }  ?>
       </ul>
       <!-- END SIDEBAR MENU -->
     </div>

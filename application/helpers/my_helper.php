@@ -192,20 +192,21 @@
 		}
 	}
 	
-  function is_login(){ 
-      if(isset($_SESSION['user_details'])){
-          return true;
-      }else{
-         redirect( base_url().'user/login', 'refresh');
-      }
-  }
-  function form_safe_json($json) {
-    $json = empty($json) ? '[]' : $json ;
-    $search = array('\\',"\n","\r","\f","\t","\b","'") ;
-    $replace = array('\\\\',"\\n", "\\r","\\f","\\t","\\b", "&#039");
-    $json = str_replace($search,$replace,$json);
-    return strip_tags($json);
-}
+	  function is_login(){ 
+	      if(isset($_SESSION['user_details'])){
+	          return true;
+	      }else{
+	         redirect( base_url().'user/login', 'refresh');
+	      }
+	  }
+
+  	function form_safe_json($json) {
+	    $json = empty($json) ? '[]' : $json ;
+	    $search = array('\\',"\n","\r","\f","\t","\b","'") ;
+	    $replace = array('\\\\',"\\n", "\\r","\\f","\\t","\\b", "&#039");
+	    $json = str_replace($search,$replace,$json);
+	    return strip_tags($json);
+	}
 	function CallAPI($method, $url, $data = false)
   {   
 	  $curl = curl_init();
@@ -311,6 +312,9 @@
 	  	$qr = $CI->db->get();
 	  	return $qr->result();
 	  }
+
+	
+	
 
 /*	  function geneeratePdf($module, $mid, $tid) {
 	  	$CI = get_instance();

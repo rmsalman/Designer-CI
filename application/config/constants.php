@@ -95,3 +95,7 @@ defined('HOST')                OR define('HOST', ''); //host
 defined('PORT')                OR define('PORT', ''); //port
 defined('SMTP_SECURE')         OR define('SMTP_SECURE', '');//SMTPSecure
 defined('SMTP_PASSWORD')       OR define('SMTP_PASSWORD', '');//password
+
+
+define('ORDERS', 'orders');
+define('PLANS_O', 'plan_orders');
