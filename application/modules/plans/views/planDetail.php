@@ -1,3 +1,6 @@
+<?php 
+	$usertype = $user['user_details'][0]->user_type;
+?>
 	<!-- BEGIN CONTENT -->
 	<div class="page-content-wrapper">
 		<div class="page-content">
@@ -77,7 +80,6 @@ a:hover {
 							<span class="after">
 							</span>
 						</li>
-
 					    <?php $x++; } ?>
 					</ul>
 				</div>
@@ -91,6 +93,8 @@ a:hover {
 
 						<div id="tab_<?= $x; ?>" class="tab-pane <?php if($x==1){ echo 'active';}?>">
 							<div id="accordion<?= $x; ?>" class="panel-group">
+
+	<?php if($usertype== 'member'){ ?>
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
@@ -145,7 +149,8 @@ a:hover {
 										</div>
 									</div>
 								</div>
-
+								<?php } ?>
+<!-- 
 								<div class="panel panel-warning">
 									<div class="panel-heading">
 										<h4 class="panel-title">
@@ -165,41 +170,43 @@ a:hover {
 											</p>
 											<p>Option</p>
 
+											<form>
 											<hr>
 
 											<h3>My Notes </h3>
-											<p>
-												Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-											</p>
-
-
+											<textarea rows="3" class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</textarea>
 
 											<h3>Admin Notes</h3>
-											<form>
-												<textarea rows="5" class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</textarea>
+												<textarea rows="3" class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</textarea>
 												<br>
-												<select class="form-control">
-													<option>Assign Designer</option>
-													<option>Design #1</option>
-													<option selected="selected">Assigned to Design #2</option>
-													<option>Design #3</option>
-													<option>Design #4</option>
+
+												<select class="form-control" >
+													<option value="">Choose Designer</option>
+												<?php 
+													foreach ($users as $user) {
+														?>
+															<option value="<?= $user->users_id ?>"><?= '#'.$user->users_id .' '. $user->name ?></option>
+														<?php
+													}
+												 ?>
 												</select>
 												<br>
 												<select class="form-control">
-													<option>Done</option>
-													<option>In Progress</option>
-													<option selected="selected">Status Paused</option>
+													<option value="3">Done</option>
+													<option value="2" selected="selected">In Progress</option>
+													<option value="1">Status Paused</option>
 												</select>
 
 
-												<h3>Notes for Designer</h3>
+												<h3>Notes For Designer</h3>
 
-												<textarea rows="5" class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</textarea>
+												<textarea rows="3" class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</textarea>
 												
 
+												<h3>Designer Notes</h3>
+
+												<textarea rows="3" class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</textarea>
+												
 												<br>
 												<button class="btn btn-success">Submit</button>
 											</form>
@@ -324,7 +331,7 @@ a:hover {
 											</p>
 										</div>
 									</div>
-								</div>
+								</div> -->
 
 		<?php
 			$orders = $this->Plans_model->get_data_by(ORDERS, $plan_counts->plan_order_id, USER_ID);
@@ -353,17 +360,140 @@ a:hover {
 
 											<hr>
 
-											<h3>My Notes </h3>
+											<form method="POST">
+											<input type="hidden" name="id" value="<?= $order->id; ?>">
+<?php if($usertype== 'member' || $usertype== 'admin'){ ?>
+											<h3>User Status</h3>
+											
+	<?php if($usertype== 'member'){ ?>
+											<select class="form-control" name="user_status">
+												<option value="0" selected="selected">Status Paused</option>
+												<option value="1">In Progress</option>
+												<option value="2">Done</option>
+											</select>
+	<?php }
+	if($usertype== 'admin'){ ?>
+											<p><?= $order->user_status; ?></p>	
+	<?php } ?>
+											<h3>Admin Status</h3>
+											<p><?= $order->admin_status; ?></p>
+
+											<h3>User Notes </h3>
+
+	<?php	if($usertype== 'member'){ ?>
+											<textarea rows="3" name="user_notes" class="form-control"><?= $order->user_notes; ?></textarea>
+	<?php } 
+	if($usertype== 'admin'){ ?>
+											<p><?= $order->user_notes; ?></p>
+	<?php }?>
+
+
+
+											<h3>Admin Notes</h3>
+											<p><?= $order->admin_notes; ?></p>
+	
+
+											<h3>User Attachment</h3>
+	<?php if($usertype== 'member'){ ?>
+											<input type="text" name="user_attachment" class="form-control" value="<?= $order->user_attachment; ?>">
+	<?php } ?>
 											<p>
-												<?= $order->user_notes; ?>
+												<a href="javascript:;"><?= $order->user_attachment; ?></a>
 											</p>
 
-											<h3>Last Admin Notes</h3>
+											<h3>Admin Attachment</h3>
 											<p>
-												Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+												<a href="javascript:;"><?= $order->admin_attachment; ?></a>
 											</p>
+
+
+<?php  } ?>
+
+
+<?php if($usertype== 'designer' || $usertype== 'admin'){ ?> <h3>Designer Status</h3>
+
+	<?php if($usertype== 'designer'){ ?>
+												<select name="designer_status" class="form-control">
+													<option value="0" selected="selected">Status Paused</option>
+													<option value="1">In Progress</option>
+													<option value="2">Done</option>
+												</select>
+	<?php } 
+	if($usertype== 'admin'){ ?>
+												<p><?= $order->designer_status; ?></p>
+
+	<?php } ?>
+											<h3>Admin Status</h3>
+											<p><?= $order->admin_status; ?></p>
+
+											
+
+											<h3>Designer Notes</h3>
+	<?php 	if($usertype== 'designer'){ ?>
+											<textarea name="designer_notes" rows="3" class="form-control"><?= $order->designer_notes; ?></textarea>
+	<?php } ?>										
+	<?php 	if($usertype== 'admin'){ ?>
+											<p><?= $order->designer_notes; ?></p>
+	<?php } ?>						
+											<h3>Admin Notes</h3>
+											<p><?= $order->admin_notes; ?></p>
+												
+												
+
+												<h3>Designer Attachment</h3>
+<?php 	if($usertype== 'designer'){ ?>
+												<input type="text" name="designer_attachment" class="form-control">
+<?php } ?>
+												<p>
+													<a href="javascript:;"><?= $order->designer_attachment; ?></a>
+												</p>
+
+											<h3>Admin Attachment</h3>
+											<p>
+												<a href="javascript:;"><?= $order->admin_attachment; ?></a>
+											</p>
+<?php } ?>
+
+
+
+<?php if($usertype== 'admin'){ ?>
+											<h3>Admin Status</h3>
+											<select class="form-control" name="admin_status">
+												<option value="0" selected="selected">Status Paused</option>
+												<option value="1">In Progress</option>
+												<option value="2">Done</option>
+											</select>
+											<h3>Admin Notes</h3>
+												<textarea rows="3" name="admin_notes" class="form-control"><?= $order->admin_notes; ?></textarea>
+												<br>
+
+												<select  name="designer_id" class="form-control" >
+													<option value="">Choose Designer</option>
+												<?php 
+													foreach ($users as $user) {
+														?>
+															<option value="<?= $user->users_id ?>"><?= '#'.$user->users_id .' '. $user->name ?></option>
+														<?php
+													}
+												 ?>
+												</select>
+
+												<h3>Status for Designer from Admin</h3>
+												<select name="admin_status_to_designer" class="form-control">
+													<option value="0" selected="selected">Status Paused</option>
+													<option value="1">In Progress</option>
+													<option value="2">Done</option>
+												</select>
+
+												<h3>Notes For Designer</h3>
+												<textarea name="notes_admin_to_designer" rows="3" class="form-control"><?= $order->notes_admin_to_designer; ?></textarea>
+
+											<h3>Admin Attachment</h3>
+											<input type="text" name="admin_attachment" class="form-control" value="<?= $order->admin_attachment; ?>">
+<?php } ?>
+												<button type="submit" name="update_design" class="btn btn-success">Submit</button>
+											</form>
+
 										</div>
 									</div>
 								</div>

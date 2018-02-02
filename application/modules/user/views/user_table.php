@@ -29,6 +29,7 @@
                   <th>Status</th>
 									<th>Name</th>
 									<th>Email</th>
+                  <th>Type</th>
                   <th>Action</th>
                 </tr>
               </thead>

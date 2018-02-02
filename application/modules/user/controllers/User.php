@@ -205,7 +205,8 @@ class User extends CI_Controller {
            array( 'db' => 'users_id', 'dt' => 0 ),array( 'db' => 'status', 'dt' => 1 ),
 					array( 'db' => 'name', 'dt' => 2 ),
 					array( 'db' => 'email', 'dt' => 3 ),
-					array( 'db' => 'users_id', 'dt' => 4 )
+                    array( 'db' => 'user_type', 'dt' => 4 ),
+                    array( 'db' => 'users_id', 'dt' => 5 )
 		);
 
         $sql_details = array(

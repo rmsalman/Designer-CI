@@ -15,9 +15,10 @@ class Plans_model extends CI_Model {
 	}
 
 
-	public function get_data($table, $user_id) {
+	public function get_data($table, $user_id, $id) {
 		$this->db->select('*');
 		$this->db->where('user_id',$user_id);
+		$this->db->where('plan_id',$id);
 		$this->db->from($table);
 		$query = $this->db->get();
 		return $result = $query->result();
@@ -34,15 +35,37 @@ class Plans_model extends CI_Model {
 	}
 
 
-	public function get_plans($table, $user_id) {
+	public function get_plans($table, $user_id, $id) {
 		return	$query = $this->db->select('*, plan_orders.id as plan_order_id')
          ->from('plan_orders')
          ->join('plans', 'plan_orders.plan_id = plans.id')
          ->order_by('plan_orders.id', 'DESC')
-         ->where('user_id',$user_id)->get()->result();         
+         ->where('user_id',$user_id)
+         ->where('plan_id',$id)
+         ->get()->result();         
 	}
 
 
+	public function get_all_plans($table, $user_id) {
+		$this->db->select('*, COUNT(plan_id) as counter');
+		$this->db->from($table);
+        $this->db->join('plans', 'plan_orders.plan_id = plans.id');
+		$this->db->where('user_id',$user_id);
+		$this->db->group_by('plan_id');
+		$query = $this->db->get();
+		return $result = $query->result();		
+	}
+
+
+	public function get_designers() {
+	return	$this->db->select('*')->from('users')->where('user_type', 'Designer')->where('is_deleted', '0')->where('status', 'active')->get()->result();
+	}
+
+  	public function updateOrder ($table, $col, $colVal, $data) {
+  		$this->db->where($col,$colVal);
+		$this->db->update($table,$data);
+		return true;
+  	}
 
    	/**
 	  * This function is used to get specific by id template record from database 

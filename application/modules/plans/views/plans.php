@@ -47,167 +47,40 @@ a:hover {
 
 <div class="row ">
 								<!-- Pricing -->
+								<?php 
+								foreach ($all_plans as $plan) {
+								?>
 								<div class="col-md-3">
-									<a href="<?= base_url('plans/1')?>">
-									</a><div class="pricing hover-effect"><a href="<?= base_url('plans/1')?>">
+									<a href="<?= base_url('plans/plandetail/'.$plan->plan_id)?>">
+									</a><div class="pricing hover-effect"><a href="<?= base_url('plans/plandetail/'.$plan->plan_id)?>">
 										<div class="pricing-head">
-											<h3>Begginer <span>
-											Officia deserunt mollitia </span>
+											<h3><?= $plan->title; ?> <span>
+											<?= $plan->sub_title; ?> </span>
 											</h3>
-											<h4><i>$</i>5<i>.49</i> <i>X</i> 2
+											<h4><i>$</i><?= $plan->price; ?><i></i> <i>X</i> <?= $plan->counter ?>
 											<span>
 											Per Month </span>
 											</h4>
 										</div>
-										<ul class="pricing-content list-unstyled">
-											<li>
-												<i class="fa fa-tags"></i> At vero eos
-											</li>
-											<li>
-												<i class="fa fa-asterisk"></i> No Support
-											</li>
-											<li>
-												<i class="fa fa-heart"></i> Fusce condimentum
-											</li>
-											<li>
-												<i class="fa fa-star"></i> Ut non libero
-											</li>
-											<li>
-												<i class="fa fa-shopping-cart"></i> Consecte adiping elit
-											</li>
-										</ul>
-										</a><div class="pricing-footer"><a href="<?= base_url('plans/1')?>">
+
+										<?= $plan->description; ?>
+											
+										</a><div class="pricing-footer"><a href="<?= base_url('plans/plandetail/'.$plan->plan_id)?>">
 											<p>
-												 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non libero magna psum olor .
+												 <?= $plan->notes; ?>
 											</p>
-											</a><a href="plan-details-admin.html" class="btn yellow-crusta">
+											</a><a href="<?= base_url('plans/plandetail/'.$plan->plan_id)?>" class="btn yellow-crusta">
 											Get Status <i class="m-icon-swapright m-icon-white"></i>
 											</a>
 										</div>
 									</div>
 									
 								</div>
-								<div class="col-md-3">
-									<a href="<?= base_url('plans/2')?>">
-									</a><div class="pricing hover-effect"><a href="<?= base_url('plans/2')?>">
-										<div class="pricing-head">
-											<h3>Pro <span>
-											Officia deserunt mollitia </span>
-											</h3>
-											<h4><i>$</i>8<i>.69</i> <i>X</i> 3
-											<span>
-											Per Month </span>
-											</h4>
-										</div>
-										<ul class="pricing-content list-unstyled">
-											<li>
-												<i class="fa fa-tags"></i> At vero eos
-											</li>
-											<li>
-												<i class="fa fa-asterisk"></i> No Support
-											</li>
-											<li>
-												<i class="fa fa-heart"></i> Fusce condimentum
-											</li>
-											<li>
-												<i class="fa fa-star"></i> Ut non libero
-											</li>
-											<li>
-												<i class="fa fa-shopping-cart"></i> Consecte adiping elit
-											</li>
-										</ul>
-										</a><div class="pricing-footer"><a href="<?= base_url('plans/2')?>">
-											<p>
-												 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non libero magna psum olor .
-											</p>
-											</a><a href="plan-details-admin.html" class="btn yellow-crusta">
-											Get Status  <i class="m-icon-swapright m-icon-white"></i>
-											</a>
-										</div>
-									</div>
-								
-								</div>
-								<div class="col-md-3">
+								<?php
+								}
+								?>
 
-									<a href="<?= base_url('plans/3')?>">
-									</a><div class="pricing hover-effect"><a href="<?= base_url('plans/3')?>">
-										<div class="pricing-head">
-											<h3>Expert <span>
-											Officia deserunt mollitia </span>
-											</h3>
-											<h4><i>$</i>13<i>.99</i> <i>X</i> 1
-											<span>
-											Per Month </span>
-											</h4>
-										</div>
-										<ul class="pricing-content list-unstyled">
-											<li>
-												<i class="fa fa-tags"></i> At vero eos
-											</li>
-											<li>
-												<i class="fa fa-asterisk"></i> No Support
-											</li>
-											<li>
-												<i class="fa fa-heart"></i> Fusce condimentum
-											</li>
-											<li>
-												<i class="fa fa-star"></i> Ut non libero
-											</li>
-											<li>
-												<i class="fa fa-shopping-cart"></i> Consecte adiping elit
-											</li>
-										</ul>
-										</a><div class="pricing-footer"><a href="<?= base_url('plans/3')?>">
-											<p>
-												 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non libero magna psum olor .
-											</p>
-											</a><a href="plan-details-admin.html" class="btn yellow-crusta">
-											Get Status  <i class="m-icon-swapright m-icon-white"></i>
-											</a>
-										</div>
-									</div>
-								
-								</div>
-								<div class="col-md-3">
-									<a href="<?= base_url('plans/4')?>">
-									</a><div class="pricing hover-effect"><a href="<?= base_url('plans/4')?>">
-										<div class="pricing-head">
-											<h3>Hi-Tech <span>
-											Officia deserunt mollitia </span>
-											</h3>
-											<h4><i>$</i>99<i>.00</i> <i>X</i> 4
-											<span>
-											Per Month </span>
-											</h4>
-										</div>
-										<ul class="pricing-content list-unstyled">
-											<li>
-												<i class="fa fa-tags"></i> At vero eos
-											</li>
-											<li>
-												<i class="fa fa-asterisk"></i> No Support
-											</li>
-											<li>
-												<i class="fa fa-heart"></i> Fusce condimentum
-											</li>
-											<li>
-												<i class="fa fa-star"></i> Ut non libero
-											</li>
-											<li>
-												<i class="fa fa-shopping-cart"></i> Consecte adiping elit
-											</li>
-										</ul>
-										</a><div class="pricing-footer"><a href="<?= base_url('plans/4')?>">
-											<p>
-												 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non libero magna psum olor .
-											</p>
-											</a><a href="plan-details-admin.html" class="btn yellow-crusta">
-											Get Status  <i class="m-icon-swapright m-icon-white"></i>
-											</a>
-										</div>
-									</div>
-								
-								</div>
+							
 								<!--//End Pricing -->
 							</div>
 

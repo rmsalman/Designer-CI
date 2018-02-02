@@ -99,3 +99,4 @@ defined('SMTP_PASSWORD')       OR define('SMTP_PASSWORD', '');//password
 
 define('ORDERS', 'orders');
 define('PLANS_O', 'plan_orders');
+
