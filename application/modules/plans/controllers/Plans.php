@@ -7,16 +7,23 @@ class Plans extends CI_Controller {
 	    is_login();
 	    $this->load->model("Plans_model"); 
 		define('USER_ID', $_SESSION['user_details'][0]->user_id);
+		define('USER_TYPE', $_SESSION['user_details'][0]->user_type);
+		
 	}
 
 	/**
 	  * This function is used get html of template page 
 	  */
-  	public function index() {
+  	public function index($user = '') {
 
-  		
-  		$data['all_plans'] = $this->Plans_model->get_all_plans(PLANS_O, USER_ID);
-      
+  		if(USER_TYPE == 'admin' && $user == '') {
+  			$user = USER_ID;
+		}
+		elseif(USER_TYPE == 'member' || USER_TYPE == 'designer' && $user == '') {
+			redirect(base_url());
+		}
+
+  		$data['all_plans'] = $this->Plans_model->get_all_plans(PLANS_O, $user);
       
         $this->load->view('include/header'); 
         $this->load->view('plans',$data);
@@ -24,12 +31,54 @@ class Plans extends CI_Controller {
 	}
 
 
-	public function planDetail ($id='') {
+	public function orderdetail ($id = '') {
+		$data = [];
+		
+		if($id == '') {
+			redirect('/');
+		}
 
+
+
+
+
+		$data = $this->input->post();
+
+		if(isset($data['design'])) {
+			unset($data['design']);
+			$this->Plans_model->insert_data(ORDERS, USER_ID, $data);
+			$this->session->set_flashdata('message', 'Your Design Requested Successfully...');
+		}
+
+		if(isset($data['update_design'])) {
+			unset($data['update_design']);
+			$this->Plans_model->updateOrder(ORDERS, 'id', $data['id'], $data) ;
+			$this->session->set_flashdata('message', 'Your Design Has Been Updated Successfully...');
+		}
+
+		$data['user'] = $this->session->userdata();
+
+
+
+		$data['orders'] = $this->Plans_model->get_order(ORDERS, $id);
+
+		$data['users'] = $this->Plans_model->get_designers();
+        $this->load->view('include/header'); 
+        $this->load->view('orderDetails', $data);
+        $this->load->view('include/footer');
+
+	}
+
+
+	public function planDetail ($id='', $user='') {
 
 
 		if($id == '') {
 			redirect('/plans/');
+		}
+
+		if($user == '') {
+			$user = USER_ID;
 		}
 
 		$data = $this->input->post();
@@ -48,16 +97,15 @@ class Plans extends CI_Controller {
 
 		$data['user'] = $this->session->userdata();
 
-		$data['orders'] = $this->Plans_model->get_data(ORDERS, USER_ID, $id);
+		$data['orders'] = $this->Plans_model->get_data(ORDERS, $user , $id);
 
-		$data['plan_count'] = $this->Plans_model->get_plans(PLANS_O, USER_ID, $id);
+		$data['plan_count'] = $this->Plans_model->get_plans(PLANS_O, $user , $id);
 
 		$data['users'] = $this->Plans_model->get_designers();
 
         $this->load->view('include/header'); 
         $this->load->view('planDetail', $data);
         $this->load->view('include/footer');
-
 	}
 
   	/**

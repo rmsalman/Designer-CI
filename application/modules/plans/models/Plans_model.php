@@ -15,7 +15,17 @@ class Plans_model extends CI_Model {
 	}
 
 
+	public function get_order($table, $id) {
+		$this->db->select('*');
+		$this->db->where('id',$id);;
+		$this->db->from($table);
+		$query = $this->db->get();
+		return $result = $query->result();
+
+	}
+
 	public function get_data($table, $user_id, $id) {
+
 		$this->db->select('*');
 		$this->db->where('user_id',$user_id);
 		$this->db->where('plan_id',$id);

@@ -51,8 +51,7 @@ a:hover {
 								foreach ($all_plans as $plan) {
 								?>
 								<div class="col-md-3">
-									<a href="<?= base_url('plans/plandetail/'.$plan->plan_id)?>">
-									</a><div class="pricing hover-effect"><a href="<?= base_url('plans/plandetail/'.$plan->plan_id)?>">
+									<div class="pricing hover-effect"><a href="<?= base_url('plans/plandetail/'.$plan->plan_id.'/'.$this->uri->segment(3))?>">
 										<div class="pricing-head">
 											<h3><?= $plan->title; ?> <span>
 											<?= $plan->sub_title; ?> </span>
@@ -65,11 +64,13 @@ a:hover {
 
 										<?= $plan->description; ?>
 											
-										</a><div class="pricing-footer"><a href="<?= base_url('plans/plandetail/'.$plan->plan_id)?>">
+										</a>
+										<div class="pricing-footer">
+											<a href="<?= base_url('plans/plandetail/'.$plan->plan_id.'/'.$this->uri->segment(3))?>">
 											<p>
 												 <?= $plan->notes; ?>
 											</p>
-											</a><a href="<?= base_url('plans/plandetail/'.$plan->plan_id)?>" class="btn yellow-crusta">
+											</a><a href="<?= base_url('plans/plandetail/'.$plan->plan_id.'/'.$this->uri->segment(3))?>" class="btn yellow-crusta">
 											Get Status <i class="m-icon-swapright m-icon-white"></i>
 											</a>
 										</div>

@@ -72,6 +72,19 @@
         return false;
     }
 </script>
+
+
+  <!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="<?php echo base_url('assets/global/scripts/metronic.js'); ?>"></script>
+
+<script>
+jQuery(document).ready(function() { 
+
+
+
+    $('#sample_1').DataTable();
+});
+</script>
 </body>
 </html>
 <!-- modal -->

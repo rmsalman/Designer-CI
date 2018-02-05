@@ -338,4 +338,35 @@
 		  file_put_contents($path.$filename, $CI->dompdf->output());
 		  return  $path.$filename;
 	  }*/
+
+
+
+
+function status($status = '') {
+  if($status == '0'){
+    $status = 'Pause';
+  }elseif($status == '1'){
+    $status = 'In Progress';  
+  }elseif($status == '2'){
+    $status = 'Done';  
+  }
+  return $status;
+}
+
+													
+													
+													
+
+function status_select($status = '') {
+  if($status == '0'){
+    $status = '<option value="0" selected="selected">Status Paused</option><option value="1">In Progress</option><option value="2">Done</option>';
+  }elseif($status == '1'){
+    $status = '<option value="0">Status Paused</option><option value="1" selected="selected">In Progress</option><option value="2">Done</option>';  
+  }elseif($status == '2'){
+    $status = '<option selected="selected" value="0">Status Paused</option><option value="1">In Progress</option><option value="2" selected="selected">Done</option>';  
+  }else {
+    $status = '<option value="0">Status Paused</option><option value="1">In Progress</option><option value="2" >Done</option>';    	
+  }
+  return $status;
+}
 ?>
