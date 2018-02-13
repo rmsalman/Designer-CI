@@ -369,4 +369,60 @@ function status_select($status = '') {
   }
   return $status;
 }
+
+
+
+
+  function check_admin(){ 
+      if(isset($_SESSION['user_details'][0]->user_type) && $_SESSION['user_details'][0]->user_type == 'admin'){
+          return true;
+      }else{
+      	redirect('dashboard');
+      }
+  }
+
+
+  function is_admin(){ 
+      if(isset($_SESSION['user_details'][0]->user_type) && $_SESSION['user_details'][0]->user_type == 'admin'){
+          return true;
+      }else{
+      	return false;
+      }
+  }
+
+  function is_designer(){ 
+      if(isset($_SESSION['user_details'][0]->user_type) && $_SESSION['user_details'][0]->user_type == 'Designer'){
+          return true;
+      }else{
+      	return false;
+      }
+  }
+
+  function is_user(){ 
+      if(isset($_SESSION['user_details'][0]->user_type) && $_SESSION['user_details'][0]->user_type == 'Member'){
+          return true;
+      }else{
+      	return false;
+      }
+  }
+
+  function user_id(){ 
+      if(isset($_SESSION['user_details'][0]->users_id)){
+          return $_SESSION['user_details'][0]->users_id;
+      }else{
+      	return false;
+      }
+  }
+
+  function get_user($id){
+	 $CI = get_instance();
+	return $CI->db->select('*')->from('users')->where('users_id', $id)->get()->row();
+  }
+
+  function get_users(){
+	 $CI = get_instance();
+	return $CI->db->select('*')->from('users')->get()->result();
+  }
+
+
 ?>

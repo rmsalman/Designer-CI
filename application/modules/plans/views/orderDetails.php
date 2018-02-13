@@ -7,6 +7,7 @@
 			<?php 
 						$data = [];
 						$data['x'] = 1;
+						$data['orders'] = $orders;
 						$data['users'] = $users;
 						$data['usertype'] = $usertype;
 			$this->load->view('partial_orderDetail', $data); ?>

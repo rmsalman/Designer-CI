@@ -7,7 +7,7 @@ class Orders extends CI_Controller {
 	    is_login();
 	    $this->load->model("dashboard/Dashboard_model"); 
 	    $this->load->model("Orders_model"); 
-		define('USER_ID', $_SESSION['user_details'][0]->user_id);
+		define('USER_ID', $_SESSION['user_details'][0]->users_id);
 		define('USER_TYPE', $_SESSION['user_details'][0]->user_type);
 	}
 
@@ -22,7 +22,12 @@ class Orders extends CI_Controller {
         $this->load->view('dashboard/index',$data);
         $this->load->view('include/footer');
 	}
-  	public function plans() {      
+  	public function plans() {  
+
+      if(is_admin() == false) {
+        redirect('dashboard');
+      }
+
   		$data = [];
 	    $data["plans_by_users"] = $this->Orders_model->plans_by_users();
 

@@ -6,7 +6,7 @@ class Dashboard extends CI_Controller {
 	    //Check user login
 	    is_login();
 	    $this->load->model("Dashboard_model"); 
-		define('USER_ID', $_SESSION['user_details'][0]->user_id);
+		define('USER_ID', $_SESSION['user_details'][0]->users_id);
 		define('USER_TYPE', $_SESSION['user_details'][0]->user_type);
 		
 	}
@@ -21,6 +21,12 @@ class Dashboard extends CI_Controller {
 	    $data["progress_orders"]= $this->Dashboard_model->oders_by_status(USER_ID, 1);
 	    $data["done_orders"]= $this->Dashboard_model->oders_by_status(USER_ID, 2);
 	    $data["orders"]= $this->Dashboard_model->orders();
+
+	    if($this->session->userdata('get_plan')) {
+		   if($this->Dashboard_model->add_plan('plan_orders', USER_ID, $this->session->userdata('get_plan'))){
+		   		unset($_SESSION['get_plan']);
+		   }	    	
+	    }
 
         $this->load->view('include/header'); 
         $this->load->view('index',$data);

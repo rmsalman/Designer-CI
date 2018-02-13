@@ -146,7 +146,7 @@
               </a>
             </li>
             <li>
-              <a href="page_todo.html">
+              <a href="<?= base_url('plans'); ?>">
               <i class="icon-briefcase"></i>Plans 
               <span class="badge badge-success">
               7 </span>

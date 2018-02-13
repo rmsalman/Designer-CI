@@ -6,8 +6,12 @@ class Plans extends CI_Controller {
 	    //Check user login
 	    is_login();
 	    $this->load->model("Plans_model"); 
-		define('USER_ID', $_SESSION['user_details'][0]->user_id);
+		define('USER_ID', $_SESSION['user_details'][0]->users_id);
 		define('USER_TYPE', $_SESSION['user_details'][0]->user_type);
+
+
+
+        $this->load->helper('url_helper');
 		
 	}
 
@@ -16,12 +20,16 @@ class Plans extends CI_Controller {
 	  */
   	public function index($user = '') {
 
-  		if(USER_TYPE == 'admin' && $user == '') {
+  		if($user == '') {
   			$user = USER_ID;
+		}elseif (is_admin()) {
+			
+		}elseif (is_user() && USER_ID == $user) {
+  			$user = USER_ID;
+		}else {
+			redirect('dashboard');
 		}
-		elseif(USER_TYPE == 'member' || USER_TYPE == 'designer' && $user == '') {
-			redirect(base_url());
-		}
+
 
   		$data['all_plans'] = $this->Plans_model->get_all_plans(PLANS_O, $user);
       
@@ -71,14 +79,17 @@ class Plans extends CI_Controller {
 
 
 	public function planDetail ($id='', $user='') {
-
-
+		
 		if($id == '') {
 			redirect('/plans/');
 		}
 
 		if($user == '') {
 			$user = USER_ID;
+		}
+
+		if(is_user() && $user !== USER_ID){
+			redirect('dashboard');
 		}
 
 		$data = $this->input->post();
@@ -143,6 +154,180 @@ class Plans extends CI_Controller {
         }
         exit;
 	}
+
+
+  	public function add() {
+
+
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+ 
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('sub_title', 'Sub Title', 'required');
+ 
+        $this->form_validation->set_rules('price', 'Price', 'required');
+        $this->form_validation->set_rules('description', 'Description', 'required');
+ 
+        $this->form_validation->set_rules('notes', 'Notes', 'required');
+ 
+        if ($this->form_validation->run() === FALSE)
+        {
+            $this->load->view('include/header'); 
+            $this->load->view('add');
+            $this->load->view('include/footer'); 
+        }else {
+
+            $data = $this->input->post();
+            unset($data['submit']);
+            $response = $this->Plans_model->add_plan('plans', $data);
+            if($response){
+                $this->session->set_flashdata('message', 'Plans Added Successfully...');
+                redirect('plans/allplans');
+            }else {
+                $this->session->set_flashdata('message', 'Sorry plan Not Added :(');                
+                $this->load->view('include/header'); 
+                $this->load->view('add');
+                $this->load->view('include/footer'); 
+            }
+        }
+
+
+	}
+
+
+  	public function view() {
+
+  		$data['all_plans'] = $this->Plans_model->get_all_plans();
+      
+        $this->load->view('include/header'); 
+        $this->load->view('add',$data);
+        $this->load->view('include/footer');
+	}
+
+
+  	public function edit() {
+
+  		$data['all_plans'] = $this->Plans_model->get_all_plans();
+      
+        $this->load->view('include/header'); 
+        $this->load->view('add',$data);
+        $this->load->view('include/footer');
+	}
+
+
+
+
+
+
+
+
+    public function allplans()
+    {
+    	check_admin();
+        $data['all_plans'] = $this->Plans_model->get_all_plan();
+
+        $this->load->view('include/header'); 
+        $this->load->view('view',$data);
+        $this->load->view('include/footer');
+    }
+ 
+    public function viewplan($slug = NULL)
+    {
+    	check_admin();
+        $data['plans_item'] = $this->Plans_model->get_plans_by_id($slug);
+        
+        if (empty($data['plans_item']))
+        {
+            show_404();
+        }
+ 
+        $data['title'] = $data['plans_item']['title'];
+ 
+        $this->load->view('header', $data);
+        $this->load->view('view', $data);
+        $this->load->view('footer');
+    }
+    
+    public function create()
+    {
+    	check_admin();
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+ 
+        $data['title'] = 'Create a plans item';
+ 
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('text', 'Text', 'required');
+ 
+        if ($this->form_validation->run() === FALSE)
+        {
+            $this->load->view('header', $data);
+            $this->load->view('create');
+            $this->load->view('footer');
+ 
+        }
+        else
+        {
+            $this->Plans_model->set_plans();
+            $this->load->view('header', $data);
+            $this->load->view('success');
+            $this->load->view('footer');
+        }
+    }
+    
+    public function editplan($id)
+    {
+
+    	check_admin();
+
+
+        $id = $this->uri->segment(3);
+        
+        if (empty($id))
+        {
+            show_404();
+        }
+        
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        
+
+        $data['id'] = $id;        
+        $data['plans_item'] = $this->Plans_model->get_plans_by_id($id);
+        
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        // $this->form_validation->set_rules('text', 'Text', 'required');
+ 
+        if ($this->form_validation->run() === FALSE)
+        {
+
+	        $this->load->view('include/header'); 
+            $this->load->view('edit', $data);
+    	    $this->load->view('include/footer'); 
+ 
+        }
+        else
+        {
+			$data =  $this->input->post();
+			unset($data['submit']);
+            $this->Plans_model->set_plans($id, $data);
+            redirect( base_url() . 'plans/allplans');
+        }
+    }
+    
+    public function delete($id)
+    {
+        check_admin();
+
+        if (empty($id))
+        {
+            redirect('plans/allplans');
+        }
+        
+        $this->Plans_model->delete_plans($id);        
+        redirect('plans/allplans');        
+    }
+
 }
 
 

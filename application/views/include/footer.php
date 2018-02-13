@@ -76,12 +76,13 @@
 
   <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="<?php echo base_url('assets/global/scripts/metronic.js'); ?>"></script>
-
+<script src="<?php echo base_url('assets/admin/pages/scripts/inbox.js'); ?>"></script>
 <script>
 jQuery(document).ready(function() { 
 
 
 
+    $('.datatable').DataTable();
     $('#sample_1').DataTable();
 });
 </script>

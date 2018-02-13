@@ -1,27 +1,6 @@
 <div class="page-content-wrapper">
 		<div class="page-content">
-			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-			<div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-							<h4 class="modal-title">Modal title</h4>
-						</div>
-						<div class="modal-body">
-							 Widget settings form goes here
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn blue">Save changes</button>
-							<button type="button" class="btn default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-					<!-- /.modal-content -->
-				</div>
-				<!-- /.modal-dialog -->
-			</div>
-			<!-- /.modal -->
-			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+
 
 			<!-- BEGIN PAGE HEADER-->
 			<div class="page-bar">
@@ -35,10 +14,24 @@
 			</div>
 			<h3 class="page-title">
 			Plans <small>all scured plans</small>
+<span class="pull-right">
+			 <a href="/designer/web/page-prices.php" class="btn btn-primary">Buy Plans</a>  
+
+<?php if(is_admin()){ ?>
+			<a href="plans/allplans" class="btn btn-primary ">Add/Edit/Delete Plans</a>
+			<div class="clearfix"></div>
+			<?php } ?>
+			</span>
 			</h3>
 			<!-- END PAGE HEADER-->
 			<!-- BEGIN DASHBOARD STATS -->
 
+				<?php if($this->session->flashdata("message")){?>
+				  <div class="alert alert-info">      
+				    <?php echo $this->session->flashdata("message")?>
+				  </div>
+				<?php } ?>
+				
 <style>
 a:hover {
     text-decoration: none;
@@ -70,7 +63,8 @@ a:hover {
 											<p>
 												 <?= $plan->notes; ?>
 											</p>
-											</a><a href="<?= base_url('plans/plandetail/'.$plan->plan_id.'/'.$this->uri->segment(3))?>" class="btn yellow-crusta">
+											</a>
+											<a href="<?= base_url('plans/plandetail/'.$plan->plan_id.'/'.$this->uri->segment(3))?>" class="btn yellow-crusta">
 											Get Status <i class="m-icon-swapright m-icon-white"></i>
 											</a>
 										</div>

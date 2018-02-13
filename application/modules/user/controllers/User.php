@@ -23,9 +23,15 @@ class User extends CI_Controller {
       * @return Void
       */
     public function login(){
+
+        if(isset($_GET['plan']) && !empty($_GET['plan'])){
+            $_SESSION['get_plan'] = $_GET['plan']; 
+        }
+
     	if(isset($_SESSION['user_details'])){
     		redirect( base_url().'user/profile', 'refresh');
     	}   
+
     	$this->load->view('include/script');
         $this->load->view('login'); 
     }
@@ -80,7 +86,7 @@ class User extends CI_Controller {
 			} else {
 				$this->session->set_userdata('user_details',$return);
 			}
-            redirect( base_url().'user/profile', 'refresh');
+            redirect( base_url().'dashboard', 'refresh');
         }
     }
 

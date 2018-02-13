@@ -17,7 +17,7 @@
       <!-- END PAGE HEADER-->
       <!-- BEGIN DASHBOARD STATS -->
       <div class="row">
-        <?php if(USER_TYPE !== 'Designer' ) { ?>
+        <?php // if(USER_TYPE !== 'Designer' ) { ?>
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
           <a href="<?= base_url('orders/plans'); ?>">
             <div class="dashboard-stat blue-madison">
@@ -35,7 +35,7 @@
           </div>
           </a>
         </div>
-        <?php } ?>
+        <?php // } ?>
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
           <a href="<?= base_url('orders/orderstatus/pause'); ?>">
           <div class="dashboard-stat red-intense">

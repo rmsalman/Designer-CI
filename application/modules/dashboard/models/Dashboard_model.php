@@ -11,13 +11,16 @@ class Dashboard_model extends CI_Model {
 	} 
    
 	public function total_plans($id='') {
+
 		$this->db->select("COUNT('*') as total_plans");		
-			if (USERTYPE == 'member') {
+			if (USERTYPE == 'Member') {
 		 		$this->db->where('user_id' , $id);
 			}
 		$this->db->from('plan_orders');
 		$query = $this->db->get();
+
 		return $result = $query->result();
+
 	}
    
 	public function total_orders_pending($status = '') {
@@ -30,16 +33,18 @@ class Dashboard_model extends CI_Model {
 
         ->from('orders o'); 
 			
-			if (USERTYPE == 'member') {
-				$this->db->where('admin_status', $status);
+			if (USERTYPE == 'Member') {
+				$this->db->where('o.admin_status', $status);
+				$this->db->where('o.user_id', user_id());
 			}
 		
 			if (USERTYPE == 'admin') {
-				$this->db->where('user_status', $status);
+				$this->db->where('o.user_status', $status);
 			}
 		
-			if (USERTYPE == 'designer') {
-				$this->db->where('admin_status_to_designer', $status);
+			if (USERTYPE == 'Designer') {
+				$this->db->where('o.admin_status_to_designer', $status);
+				$this->db->where('o.designer_id', user_id());
 			}
 		
 		$query = $this->db->get();
@@ -49,11 +54,11 @@ class Dashboard_model extends CI_Model {
 
 	public function oders_by_status($id='', $status='') {
 		$this->db->select("COUNT('*') as orders");
-			if (USERTYPE == 'member') {
+			if (USERTYPE == 'Member') {
 		 		$this->db->where('user_id' , $id);
 		 		$this->db->where('admin_status', $status);
 			}
-			if (USERTYPE == 'designer') {
+			if (USERTYPE == 'Designer') {
 		 		$this->db->where('designer_id' , $id);
 		 		$this->db->where('admin_status_to_designer', $status);
 			}
@@ -62,11 +67,14 @@ class Dashboard_model extends CI_Model {
 			}
 		$this->db->from('orders');
 		$query = $this->db->get();
+
+// die($this->db->last_query());
+
 		return $result = $query->result();
 	}
 
 
-	public function orders($id='', $status='') {
+	public function orders() {
 
 		$this->db->select(" o.order_title, o.id, o.user_status, o.admin_status, o.designer_status, o.admin_status_to_designer, p.title ,o.user_id, o.designer_id, o.plan_id, u.name, p.title as p_title, uu.name as d_name, o.created_at as o_created_at, o.updated_at as o_updated_at")
         ->join('users u', 'o.user_id = u.users_id')
@@ -74,9 +82,37 @@ class Dashboard_model extends CI_Model {
         ->join('plans p', 'o.plan_id = p.id')
         ->from('orders o'); 
 
+		
+			if (USERTYPE == 'Member') {
+
+				$this->db->where('o.user_id', user_id());
+
+			}elseif (USERTYPE == 'Designer') {
+				
+				$this->db->where('o.designer_id', user_id());
+
+			}elseif (USERTYPE == 'admin') {
+
+				
+			}else {
+				$this->db->where('o.designer_id', 0);
+			}
+
+
 		$query = $this->db->get();
+
+// die($this->db->last_query());
 		return $result = $query->result();
 
+	}
+
+
+	public function add_plan ($table, $id, $plan) {
+		$data = [];
+		$data['user_id'] = $id;
+		$data['plan_id'] = $plan;
+
+        return $this->db->insert($table, $data);
 	}
 }
 ?>

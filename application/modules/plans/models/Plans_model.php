@@ -77,49 +77,59 @@ class Plans_model extends CI_Model {
 		return true;
   	}
 
-   	/**
-	  * This function is used to get specific by id template record from database 
-	  * @param: $id - it is id of template
-	  */
-	// public function get_specific_template($id='') {
-	// 	 $this->db->select('*');
-	// 	 $this->db->from('templates');
-	// 	 $this->db->where('id' , $id);
-	// 	 $query = $this->db->get();
-	// 	 return $result = $query->row();
-	// }
 	
-	/**
-	  * This function is used to get all record from templates table  
-	  */
-	// public function get_templates() {
-	// 	$this->db->select('*');
-	// 	$this->db->from('templates');
-	// 	$query = $this->db->get();
-	// 	return $result = $query->result();
-	// }
 
-	/**
-	  * This function is used to insert row in table  
-	  * @param: $table - table name in which you want to insert record
-	  * @param: $data - data array
-	  */
-	// public function insertRow($table, $data){
-	//   	$this->db->insert($table, $data);
-	//   	return  $this->db->insert_id();
-	// }
 
-	/**
-   	  * This function is used to update data in specific table
-   	  * @param : $table - table name in which you want to update record
-   	  * @param : $col - field name for where clause 
-   	  * @param : $colVal - field value for where clause
-   	  * @param : $data - data array 
-   	  */
-  // 	public function updateRow($table, $col, $colVal, $data) {
-  // 		$this->db->where($col,$colVal);
-		// $this->db->update($table,$data);
-		// return true;
-  // 	}
+
+
+    public function get_all_plan($slug = FALSE)
+    {
+        if ($slug === FALSE)
+        {
+            $query = $this->db->get('plans');
+            return $query->result();
+        }
+ 
+        // $query = $this->db->get_where('plans', array('slug' => $slug));
+        return $query->row_array();
+    }
+    
+    public function get_plans_by_id($id = 0)
+    {
+        if ($id === 0)
+        {
+            $query = $this->db->get('plans');
+            return $query->result_array();
+        }
+ 
+        $query = $this->db->get_where('plans', array('id' => $id));
+        return $query->row_array();
+    }
+    
+    public function set_plans($id = 0, $data)
+    {
+        $this->load->helper('url');
+ 
+        
+        if ($id == 0) {
+            return $this->db->insert('plans', $data);
+        } else {
+            $this->db->where('id', $id);
+            return $this->db->update('plans', $data);
+        }
+    }
+    
+    public function delete_plans($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete('plans');
+    }
+
+
+    
+    public function add_plan($table, $data)
+    {
+        return $this->db->insert($table, $data);
+    }
 }
 ?>
