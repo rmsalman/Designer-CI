@@ -15,6 +15,13 @@ class Plans_model extends CI_Model {
 	}
 
 
+    public function add_plan_to_user ($table, $id, $plan) {
+        $data = [];
+        $data['user_id'] = $id;
+        $data['plan_id'] = $plan;
+        return $this->db->insert($table, $data);
+    }
+
 	public function get_order($table, $id) {
 		$this->db->select('*');
 		$this->db->where('id',$id);;

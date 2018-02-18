@@ -22,14 +22,14 @@
           <a href="<?= base_url('orders/plans'); ?>">
             <div class="dashboard-stat blue-madison">
             <div class="visual">
-              <i class="fa fa-comments"></i>
+              <i class="fa fa-shopping-cart"></i>
             </div>
             <div class="details">
               <div class="number">
                  <?= $total_plans[0]->total_plans; ?>
               </div>
               <div class="desc">
-                 Total Orders
+                 Total Plans
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@
           <a href="<?= base_url('orders/orderstatus/pause'); ?>">
           <div class="dashboard-stat red-intense">
             <div class="visual">
-              <i class="fa fa-bar-chart-o"></i>
+              <i class="fa fa-meh-o"></i>
             </div>
             <div class="details">
               <div class="number">
@@ -58,7 +58,7 @@
           <a href="<?= base_url('orders/orderstatus/completed'); ?>">
           <div class="dashboard-stat green-haze">
             <div class="visual">
-              <i class="fa fa-shopping-cart"></i>
+              <i class="fa fa-smile-o"></i>
             </div>
             <div class="details">
               <div class="number">
@@ -76,7 +76,7 @@
           <a href="<?= base_url('orders/orderstatus/inprogress'); ?>">
           <div class="dashboard-stat purple-plum">
             <div class="visual">
-              <i class="fa fa-globe"></i>
+              <i class="fa fa-clock-o"></i>
             </div>
             <div class="details">
               <div class="number">
@@ -90,6 +90,81 @@
           </div>
         </a>
         </div>
+
+<?php 
+  $dash_notices = notices();
+ 
+  if(is_admin()){ ?>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <a href="<?= base_url('user/userTable'); ?>">
+          <div class="dashboard-stat purple-plum">
+            <div class="visual">
+              <i class="fa fa-users"></i>
+            </div>
+            <div class="details">
+              <div class="number">
+
+                 <?php 
+                 if(!empty($dash_notices['all_users']->total)){ 
+                    echo $dash_notices['all_users']->total - 1; 
+                 }else {echo '0';} ?>
+
+              </div>
+              <div class="desc">
+                 Users
+              </div>
+            </div>
+
+          </div>
+        </a>
+        </div>
+<?php } ?>
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <a href="<?= base_url('user/userTable'); ?>">
+          <div class="dashboard-stat green-haze">
+            <div class="visual">
+              <i class="icon-envelope"></i>
+            </div>
+            <div class="details">
+              <div class="number">
+                 <?php if(!empty($dash_notices['all_recieved']->total)){ 
+                   echo $dash_notices['all_recieved']->total; 
+                 }else {echo '0';} ?>
+              </div>
+              <div class="desc">
+                 MailBox
+              </div>
+            </div>
+
+          </div>
+        </a>
+        </div>
+
+        <?php if(is_admin()){ ?>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <a href="<?= base_url('user/userTable'); ?>">
+          <div class="dashboard-stat red-intense">
+            <div class="visual">
+              <i class="fa fa-comments"></i>
+            </div>
+            <div class="details">
+              <div class="number">
+                 <?php if(!empty($dash_notices['all_comments']->total)){ 
+                   echo $dash_notices['all_comments']->total; 
+                 }else {echo '0';} ?>
+              </div>
+              <div class="desc">
+                 Comments
+              </div>
+            </div>
+
+          </div>
+        </a>
+        </div>
+        <?php } ?>
+
+
       </div>
       <!-- END DASHBOARD STATS -->
       <div class="clearfix">

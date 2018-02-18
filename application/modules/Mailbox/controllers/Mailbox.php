@@ -13,6 +13,11 @@ class Mailbox extends CI_Controller {
   		$data = [];
  		$data['allmsgs'] = $this->Mailbox_model->allmsgs(user_id());
 
+// echo $this->db->last_query();
+// echo '<pre>';
+// print_r($data['allmsgs']);
+// exit;
+
         $this->load->view('include/header', $data); 
         $this->load->view('index');
         $this->load->view('include/footer');
@@ -22,7 +27,20 @@ class Mailbox extends CI_Controller {
   	public function view($id) {   
   		$data = [];
  		$data['msg'] = $this->Mailbox_model->view('mailbox',$id);
- 		$data['read'] = $this->Mailbox_model->updateMsg('mailbox', 'mailbox_id', $id, array('read_status'=>1));
+
+ 		if(is_admin()){
+	 		$data['read'] = $this->Mailbox_model->updateMsg('mailbox', 'mailbox_id', $id, array('read_status_admin'=>1));	
+ 		}
+ 		if(is_user()){
+	 		$data['read'] = $this->Mailbox_model->updateMsg('mailbox', 'mailbox_id', $id, array('read_status'=>1));	
+ 		}
+ 		if(is_designer()){
+	 		$data['read'] = $this->Mailbox_model->updateMsg('mailbox', 'mailbox_id', $id, array('read_status_designer'=>1));
+ 		}
+
+if(empty($data['msg'])){
+	redirect('mailbox');
+}
 
         $this->load->view('include/header', $data); 
         $this->load->view('view', $data);
@@ -46,18 +64,17 @@ class Mailbox extends CI_Controller {
                 
                 $config = [];
                 $config['upload_path'] = './uploads/';
-				$config['allowed_types'] = 'gif|jpg|png|docx|doc|excel|notes|zip';
+				$config['allowed_types'] = 'gif|jpg|png|docx|doc|excel|notes|zip|txt';
 
                 $this->load->library('upload', $config);
 				if($this->upload->do_upload('fileone')){
 					$data['fileone'] = $this->upload->data('file_name');
 				}
-                
 
             	unset($data['submit']);
 		        $response = $this->Mailbox_model->insert('mailbox', $data);
                 $this->session->set_flashdata('message', 'Message Sent Successfully...');
-                redirect('mailbox');
+                redirect('mailbox/sent');
                 
 	    	}
 		}else 

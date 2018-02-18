@@ -8,10 +8,11 @@ class Plans extends CI_Controller {
 	    $this->load->model("Plans_model"); 
 		define('USER_ID', $_SESSION['user_details'][0]->users_id);
 		define('USER_TYPE', $_SESSION['user_details'][0]->user_type);
-
-
-
         $this->load->helper('url_helper');
+
+        if(isset($_GET['get_plan']) && !empty($_GET['get_plan'])){
+            $_SESSION['get_plan'] = $_GET['get_plan']; 
+        }
 		
 	}
 
@@ -30,6 +31,11 @@ class Plans extends CI_Controller {
 			redirect('dashboard');
 		}
 
+        if($this->session->userdata('get_plan')) {
+           if($this->Plans_model->add_plan_to_user('plan_orders', user_id(), $this->session->userdata('get_plan'))){
+                unset($_SESSION['get_plan']);
+           }            
+        }
 
   		$data['all_plans'] = $this->Plans_model->get_all_plans(PLANS_O, $user);
       
@@ -46,11 +52,42 @@ class Plans extends CI_Controller {
 			redirect('/');
 		}
 
-
-
-
-
 		$data = $this->input->post();
+
+
+
+
+                $config = [];
+                $config['upload_path'] = './uploads/';
+                $config['allowed_types'] = 'gif|jpg|png|docx|doc|excel|notes|zip|txt';
+
+                $this->load->library('upload', $config);
+
+                if(is_admin()){
+                    $uploader = 'admin_attachment';
+                    $uploader2 = 'admin_attachment_to_designer';
+                if($this->upload->do_upload($uploader2)){
+                    $data[$uploader2] = $this->upload->data('file_name');
+                }
+
+
+                }elseif (is_user()) {
+                    $uploader = 'user_attachment';
+                }elseif (is_designer()) {
+                    $uploader = 'designer_attachment';
+                }
+
+                if($this->upload->do_upload($uploader)){
+                    $data[$uploader] = $this->upload->data('file_name');
+                }
+
+
+
+            // $error = array('error' => $this->upload->display_errors());
+            // echo '<pre>';
+            // print_r($error);
+            // echo '</pre>';
+
 
 		if(isset($data['design'])) {
 			unset($data['design']);
@@ -65,8 +102,6 @@ class Plans extends CI_Controller {
 		}
 
 		$data['user'] = $this->session->userdata();
-
-
 
 		$data['orders'] = $this->Plans_model->get_order(ORDERS, $id);
 
@@ -94,6 +129,36 @@ class Plans extends CI_Controller {
 
 		$data = $this->input->post();
 
+                $config = [];
+                $config['upload_path'] = './uploads/';
+                $config['allowed_types'] = 'gif|jpg|png|docx|doc|excel|notes|zip|txt';
+
+                $this->load->library('upload', $config);
+
+                if(is_admin()){
+                    $uploader = 'admin_attachment';
+                    $uploader2 = 'admin_attachment_to_designer';
+
+                    if($this->upload->do_upload($uploader2 )){
+                        $data[$uploader2] = $this->upload->data('file_name');
+                    }
+                
+                }elseif (is_user()) {
+                    $uploader = 'user_attachment';
+                }elseif (is_designer()) {
+                    $uploader = 'designer_attachment';
+                }
+
+                if($this->upload->do_upload($uploader)){
+                    $data[$uploader] = $this->upload->data('file_name');
+                }
+
+
+            // $error = array('error' => $this->upload->display_errors());
+            // echo '<pre>';
+            // print_r($error);
+            // echo '</pre>';
+
 		if(isset($data['design'])) {
 			unset($data['design']);
 			$this->Plans_model->insert_data(ORDERS, USER_ID, $data);
@@ -109,7 +174,7 @@ class Plans extends CI_Controller {
 		$data['user'] = $this->session->userdata();
 
 		$data['orders'] = $this->Plans_model->get_data(ORDERS, $user , $id);
-
+ 
 		$data['plan_count'] = $this->Plans_model->get_plans(PLANS_O, $user , $id);
 
 		$data['users'] = $this->Plans_model->get_designers();

@@ -16,6 +16,26 @@ class Blogs extends CI_Controller {
         $this->load->view('include/footer');
 	}
 
+  	public function comments($id = '', $status = '') {
+
+		if($id !== '' && $status !== '') {
+
+				if($status == 1){
+					$status = 0;
+				}elseif ($status == 0) {
+					$status = 1;
+				} 
+			    $this->Blogs_model->updateBlog('comments', 'comment_id', $id, array('comment_status' => $status) );
+
+		}
+
+	    $data["comments"]= $this->Blogs_model->comments('comments');
+
+        $this->load->view('include/header'); 
+        $this->load->view('comments', $data);
+        $this->load->view('include/footer');
+	}
+
   	public function view($id='') {   
 	    $data["blogs"]= $this->Blogs_model->allBlogs('blogs');
         $this->load->view('include/header'); 

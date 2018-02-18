@@ -43,7 +43,7 @@
         </div>
         <div class="col-md-10">
           <div class="inbox-header">
-            <h1 class="pull-left">Inbox</h1>
+            <!-- <h1 class="pull-left">Inbox</h1> -->
             
           </div>
 
@@ -62,51 +62,28 @@
     <div class="col-md-7">
       <img style="max-width: 25px" src="<?= base_url('assets/images/'.$user->profile_pic); ?>">
       <span class="bold">
-      <?= $user->name; ?>
+      <?= $msg->u2_name; ?>
       </span>
 
       to <span class="bold">
-      me </span>
+      
+        
+      <?= $msg->name; ?>
+  
+       </span>
       on <?= $msg->msg_created_at; ?>
     </div>
-    <!-- <div class="col-md-5 inbox-info-btn">
-      <div class="btn-group">
-        <button data-messageid="23" class="btn blue reply-btn">
-        <i class="fa fa-reply"></i> Reply </button>
-        <button class="btn blue dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-angle-down"></i>
-        </button>
-        <ul class="dropdown-menu pull-right">
-          <li>
-            <a href="javascript:;" data-messageid="23" class="reply-btn">
-            <i class="fa fa-reply"></i> Reply </a>
-          </li>
-          <li>
-            <a href="javascript:;">
-            <i class="fa fa-arrow-right reply-btn"></i> Forward </a>
-          </li>
-          <li>
-            <a href="javascript:;">
-            <i class="fa fa-print"></i> Print </a>
-          </li>
-          <li class="divider">
-          </li>
-          <li>
-            <a href="javascript:;">
-            <i class="fa fa-ban"></i> Spam </a>
-          </li>
-          <li>
-            <a href="javascript:;">
-            <i class="fa fa-trash-o"></i> Delete </a>
-          </li>
-          <li>
-          </li></ul></div>
-        </div> -->
+    
       </div>
     </div>
     <div class="inbox-view">
       
       <?= $msg->message; ?>
+
+
+      <br>
+      <hr>
+      <strong>Attachment: </strong> <a target="_blank" href="<?= base_url('uploads/'. $msg->fileone);?>"><?= $msg->fileone; ?></a>
     </div>
     
 

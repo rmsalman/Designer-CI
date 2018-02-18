@@ -6,27 +6,30 @@ class Dashboard extends CI_Controller {
 	    //Check user login
 	    is_login();
 	    $this->load->model("Dashboard_model"); 
-		define('USER_ID', $_SESSION['user_details'][0]->users_id);
-		define('USER_TYPE', $_SESSION['user_details'][0]->user_type);
+	    $this->load->model("Public_model"); 
+		define('USER_ID', user_id());
+		define('USER_TYPE', user_type());
 		
 	}
 
-	/**
-	  * This function is used get html of template page 
-	  */
   	public function index() {   
   		$data = [];
 	    $data["total_plans"]= $this->Dashboard_model->total_plans(USER_ID);
-	    $data["pause_orders"]= $this->Dashboard_model->oders_by_status(USER_ID, 0);
-	    $data["progress_orders"]= $this->Dashboard_model->oders_by_status(USER_ID, 1);
-	    $data["done_orders"]= $this->Dashboard_model->oders_by_status(USER_ID, 2);
-	    $data["orders"]= $this->Dashboard_model->orders();
+	    $data["pause_orders"]= $this->Public_model->oders_by_status(USER_ID, 0);
+	    $data["progress_orders"]= $this->Public_model->oders_by_status(USER_ID, 1);
+	    $data["done_orders"]= $this->Public_model->oders_by_status(USER_ID, 2);
 
-	    if($this->session->userdata('get_plan')) {
-		   if($this->Dashboard_model->add_plan('plan_orders', USER_ID, $this->session->userdata('get_plan'))){
-		   		unset($_SESSION['get_plan']);
-		   }	    	
+	    if(is_admin()){
+	    	$status = 'read_status_admin';
+	    }elseif (is_user()) {
+	    	$status = 'read_status';
+	    }elseif (is_designer()) {
+	    	$status = 'read_status_designer';
 	    }
+
+// die($this->db->last_query());
+
+	    $data["orders"]= $this->Dashboard_model->orders();
 
         $this->load->view('include/header'); 
         $this->load->view('index',$data);

@@ -16,13 +16,17 @@ class Mailbox_model extends CI_Model {
 	
 	public function view($table, $id)
     {
-        return $this->db->select('*')->from($table)->where('mailbox_id', $id)->get()->row();
+        return $this->db->select('m.*, u2.name as u2_name, u.name as name')
+        ->from($table. ' m')
+        ->join('users u', 'm.send_to = u.users_id')
+        ->join('users u2', 'm.send_from = u2.users_id')
+        ->where('mailbox_id', $id)->get()->row();
     }
 
 	public function allmsgs($id)
     {
         $query = $this->db->select('*')->from('mailbox m')->where('send_to', $id)
-        ->join('users u', 'm.send_to = u.users_id')
+        ->join('users u', 'm.send_from = u.users_id')
         ->get()->result();
 
         // echo $this->db->last_query();

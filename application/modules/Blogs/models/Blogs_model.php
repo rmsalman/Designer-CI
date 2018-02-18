@@ -44,5 +44,15 @@ class Blogs_model extends CI_Model {
 
 
 
+    public function comments($id)
+    {
+        return $this->db
+        ->from('comments c')
+        ->join('blogs b', 'b.blog_id = c.blog')
+        ->get()->result();
+    }
+
+
+
 }
 ?>

@@ -6,7 +6,7 @@
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion<?= $x; ?>" href="#accordion<?= $x; ?>_7">
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion<?= $x; ?>" href="#accordion<?= $x; ?>_$x">
 										<?= $order->order_title; ?> </a>
 										</h4>
 									</div>
@@ -22,7 +22,7 @@
 
 											<hr>
 
-											<form method="POST">
+											<form method="POST" enctype="multipart/form-data">
 											<input type="hidden" name="id" value="<?= $order->id; ?>">
 <?php if($usertype== 'Member' || $usertype== 'admin'){ ?>
 											<p><strong>User Status</strong>
@@ -58,19 +58,21 @@
 											
 	
 
-											<p><strong>User Attachment</strong> <a href="javascript:;"><?= $order->user_attachment; ?></a></p>
+			<p><strong>User Attachment</strong> <a target="_blank" href="<?= base_url('uploads/' .$order->user_attachment)?>"><?= $order->user_attachment; ?></a></p>
 	<?php if($usertype== 'Member'){ ?>
-											<input type="text" name="user_attachment" class="form-control" value="<?= $order->user_attachment; ?>">
+											<input type="file" name="user_attachment" class="form-con trol">
 											<br>
 	<?php } ?>
 											
-											<p><strong>Admin Attachment</strong> <a href="javascript:;"><?= $order->admin_attachment; ?></a></p>
+											<p><strong>Admin Attachment</strong> <a target="_blank" href="<?= base_url('uploads/'.$order->admin_attachment); ?>"><?= $order->admin_attachment; ?></a></p>
+<?php if($usertype== 'admin'){ ?>
+											<input type="file" name="admin_attachment" class="form-co ntrol" value="<?= $order->admin_attachment; ?>">
 											
-<?php  } ?>
+<?php } } ?>
 
 											<hr>
 
-<?php if($usertype== 'Designer' || $usertype== 'admin'){ ?> <p><strong>Designer Status </strong> 
+<?php  if($usertype== 'Designer' || $usertype== 'admin'){ ?> <p><strong>Designer Status </strong> 
 	<?php if($usertype== 'admin'){ ?>
 												<?= status($order->designer_status); ?>
 
@@ -96,13 +98,13 @@
 												
 												
 
-												<p><strong>Designer Attachment</strong> <a href="javascript:;"><?= $order->designer_attachment; ?></a></p>
+												<p><strong>Designer Attachment</strong> <a target="_blank" href="<?= base_url('uploads/'. $order->designer_attachment);?>"><?= $order->designer_attachment; ?></a></p>
 <?php 	if($usertype== 'Designer'){ ?>
-												<input type="text" name="designer_attachment" class="form-control" value="<?= $order->designer_attachment; ?>">
+												<input type="file" name="designer_attachment" class="form-co ntrol" value="<?= $order->designer_attachment; ?>">
 <?php } ?>
 												
 
-											<p><strong>Admin Attachment</strong> <a href="javascript:;"><?= $order->admin_attachment; ?></a></p>
+											<p><strong>Admin Attachment</strong> <a target="_blank" href="<?= base_url('uploads/'. $order->admin_attachment_to_designer);?>"><?= $order->admin_attachment_to_designer; ?></a></p>
 											
 <?php } ?>
 
@@ -138,8 +140,8 @@
 												<p><strong>Notes For Designer</strong></p>
 												<textarea name="notes_admin_to_designer" rows="3" class="form-control"><?= $order->notes_admin_to_designer; ?></textarea>
 <br>
-											<p><strong>Admin Attachment</strong></p>
-											<input type="text" name="admin_attachment" class="form-control" value="<?= $order->admin_attachment; ?>">
+											<p><strong>Admin Attachment For Designer <a target="_blank" href="<?= base_url('uploads/'.$order->admin_attachment_to_designer); ?>"><?= $order->admin_attachment_to_designer; ?></a></strong></p>
+											<input type="file" name="admin_attachment_to_designer" class="form-co ntrol" value="<?= $order->admin_attachment_to_designer; ?>">
 											<br>
 <?php } ?>
 												<button type="submit" name="update_design" class="btn btn-success">Submit</button>

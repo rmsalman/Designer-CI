@@ -1,0 +1,29 @@
+Chrome
+
+https://uae.algaraj.com/car-news/c/road-tests
+.slide-text p {
+    font-size: 14px !important;
+}
+@media only screen and (max-width: 560px)
+application_v1_en.css:25
+.slide-text p {
+    font-size: 14px !important;
+}
+
+
+SAFARI
+https://uae.algaraj.com/		
+banner form
+
+.mobile-tab .slick-track {
+	-webkit-transform: none !important;
+}
+
+
+.slick-prev, .slick-next {
+    width: 25px;
+    height: 25px;
+}
+
+Versus tag in responsiveness (remove 3% in css)
+

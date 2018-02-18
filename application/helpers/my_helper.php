@@ -316,7 +316,7 @@
 	
 	
 
-/*	  function geneeratePdf($module, $mid, $tid) {
+	  function geneeratePdf($module, $mid, $tid) {
 	  	$CI = get_instance();
 	  	$template_row = getDataByid('templates',$tid,'id');
 	  	$module_row = getDataByid($module,$mid,'id');
@@ -337,7 +337,7 @@
 		  }
 		  file_put_contents($path.$filename, $CI->dompdf->output());
 		  return  $path.$filename;
-	  }*/
+	  }
 
 
 
@@ -405,6 +405,13 @@ function status_select($status = '') {
       	return false;
       }
   }
+  function user_type(){ 
+      if(isset($_SESSION['user_details'][0]->user_type)){
+          return $_SESSION['user_details'][0]->user_type;
+      }else{
+      	return false;
+      }
+  }
 
   function user_id(){ 
       if(isset($_SESSION['user_details'][0]->users_id)){
@@ -423,6 +430,55 @@ function status_select($status = '') {
 	 $CI = get_instance();
 	return $CI->db->select('*')->from('users')->get()->result();
   }
+
+
+function notices(){
+
+	$CI = get_instance();
+	$data = [];
+	$CI->load->model("Public_model"); 
+
+	if(is_admin()){
+	$status = 'read_status_admin';
+	}elseif (is_user()) {
+	$status = 'read_status';
+	}elseif (is_designer()) {
+	$status = 'read_status_designer';
+	}
+
+	$data = [];
+	$data['all_recieved'] = $CI->Public_model->msgcounter('mailbox', 'send_to', user_id(), $status, 0);
+	$data['all_plans'] = $CI->Public_model->all_plans(user_id());
+	$data['all_comments'] = $CI->Public_model->all_counts('comments');
+	$data['all_users'] = $CI->Public_model->all_counts('users');
+	$data["pause_orders"]= $CI->Public_model->oders_by_status(user_id(), 0);
+	$data["progress_orders"]= $CI->Public_model->oders_by_status(user_id(), 1);
+	$data["completed_orders"]= $CI->Public_model->oders_by_status(user_id(), 2);
+
+
+// echo '<pre>';
+// print_r($data);
+// exit;
+
+	$data["done_orders"]= $CI->Public_model->oders_by_status(user_id(), 2);
+
+
+      return $data;
+}
+
+
+
+function dash_notices(){
+	$CI = get_instance();
+	$data = [];
+	$CI->load->model("Public_model"); 
+
+    return $data;
+}
+
+
+
+
 
 
 ?>

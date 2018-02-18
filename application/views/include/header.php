@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<?php 
+     
+// echo '<pre>';
+// print_r(notices());
+//      exit; 
+ ?>
+ 
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
@@ -80,8 +87,12 @@
 <![endif]-->
 
 <style>
-  .form {
-    margin-top: 0;
+.form {
+  margin-top: 0;
+}
+
+.tiles .tile .tile-object > .name, .tiles .tile .tile-object > .number {
+    text-shadow: 1px 1px black;
 }
 </style>
 
@@ -98,6 +109,7 @@
 <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
 <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
 <body class="page-header-fixed page-quick-sidebar-over-content page-sidebar-closed-hide-logo" data-base-url="<?php echo base_url(); ?>">
+
 <!-- BEGIN HEADER -->
 <!-- BEGIN HEADER -->
 <div class="page-header -i navbar navbar-fixed-top">
@@ -186,20 +198,6 @@
       <ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
         
         <?php $this->load->view("include/menu");?>
-
-        <li class="<?=($this->router->method==="profile")?"active":"not-active"?>"> 
-          <a href="<?php echo base_url('user/profile');?>"> <i class="fa fa-user"></i> <span>My Account</span></a>
-        </li>      
-         <?php if(CheckPermission("users", "own_read")){ ?>
-            <li class="<?=($this->router->method==="userTable")?"active":"not-active"?>"> 
-                <a href="<?php echo base_url();?>user/userTable"> <i class="fa fa-users"></i> <span>Users</span></a>
-            </li>    
-          <?php } 
-         if(isset($this->session->userdata('user_details')[0]->user_type) && $this->session->userdata('user_details')[0]->user_type == 'admin'){ ?>    
-            <li class="<?=($this->router->class==="setting")?"active":"not-active"?>">
-                <a href="<?php echo base_url("setting"); ?>"><i class="fa fa-cogs"></i> <span>Settings</span></a>
-            </li>
-          <?php }  ?>
       </ul>
       <!-- END SIDEBAR MENU -->
     </div>

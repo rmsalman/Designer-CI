@@ -1,7 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-/**
- * templates_model Class extends CI_Model
- */
+
+
 class Dashboard_model extends CI_Model {       
 	function __construct(){            
 	    parent::__construct();
@@ -18,10 +17,9 @@ class Dashboard_model extends CI_Model {
 			}
 		$this->db->from('plan_orders');
 		$query = $this->db->get();
-
 		return $result = $query->result();
-
 	}
+
    
 	public function total_orders_pending($status = '') {
 		$this->db->select(" o.order_title, o.id, o.user_status, o.admin_status, o.designer_status, o.admin_status_to_designer, p.title ,o.user_id, o.designer_id, o.plan_id, u.name, p.title as p_title, uu.name as d_name, o.created_at as o_created_at, o.updated_at as o_updated_at")

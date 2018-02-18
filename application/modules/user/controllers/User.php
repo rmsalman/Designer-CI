@@ -24,8 +24,8 @@ class User extends CI_Controller {
       */
     public function login(){
 
-        if(isset($_GET['plan']) && !empty($_GET['plan'])){
-            $_SESSION['get_plan'] = $_GET['plan']; 
+        if(isset($_GET['get_plan']) && !empty($_GET['get_plan'])){
+            $_SESSION['get_plan'] = $_GET['get_plan']; 
         }
 
     	if(isset($_SESSION['user_details'])){

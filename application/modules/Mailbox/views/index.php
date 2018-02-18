@@ -18,7 +18,7 @@
         
       </div>
       <h3 class="page-title">
-      Inbox <small>user inbox</small>
+      MailBox <small></small>
       </h3>
       <!-- END PAGE HEADER-->
       <div class="row inbox">
@@ -61,11 +61,24 @@
               </thead>
 
             <tbody> 
-              <?php foreach ($allmsgs as $msg) {?>
-                <tr <?php if($msg->read_status == 0){ echo 'class="unread"'; } ?>>
-                  <td <?php if($msg->read_status == 0){ echo 'class="view-message"'; } ?>><a href="<?= base_url('mailbox/view/'.$msg->mailbox_id); ?>"><?= $msg->name; ?></a></td>
-                  <td <?php if($msg->read_status == 0){ echo 'class="view-message"'; } ?>><a href="<?= base_url('mailbox/view/'.$msg->mailbox_id); ?>"><?= substr($msg->message, 0, 30); ?></a></td>
-                  <td <?php if($msg->read_status == 0){ echo 'class="view-message"'; } ?>><a href="<?= base_url('mailbox/view/'.$msg->mailbox_id); ?>"><?=  date_format(date_create($msg->msg_created_at),"d/M/y g:ia"); ?></a></td> 
+              <?php foreach ($allmsgs as $msg) {
+
+$r_class = $d_class = '';
+                if(is_user() && $msg->read_status == 0){ $r_class = "unread"; $d_class = "view-message"; }
+                if(is_admin() && $msg->read_status_admin == 0){ $r_class = "unread"; $d_class = "view-message"; }
+                if(is_designer() && $msg->read_status_designer == 0){ $r_class = "unread"; $d_class = "view-message"; }
+
+
+// echo '<pre>';
+// print_r($msg);
+
+// echo '</pre>';
+// exit;
+                ?>
+                <tr class="<?= $r_class ?>">
+                  <td class="<?= $d_class ?>" ><a href="<?= base_url('mailbox/view/'.$msg->mailbox_id); ?>"><?= $msg->name; ?></a></td>
+                  <td class="<?= $d_class ?>"><a href="<?= base_url('mailbox/view/'.$msg->mailbox_id); ?>"><?= substr($msg->message, 0, 30); ?></a></td>
+                  <td class="<?= $d_class ?>"><a href="<?= base_url('mailbox/view/'.$msg->mailbox_id); ?>"><?=  date_format(date_create($msg->msg_created_at),"d/M/y g:ia"); ?></a></td> 
                 </tr>
               <?php } ?> 
             </tbody>
