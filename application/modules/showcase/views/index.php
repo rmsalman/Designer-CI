@@ -22,6 +22,7 @@
 
       <span class="pull-right">   
         <a href="<?= base_url('showcase/add');?>" class="btn btn-info">Add showcase</a>
+        <a href="<?= base_url('showcase/purchased');?>" class="btn btn-info">Show Purchased</a>
       </span>
       <div class="clearfix"></div>
       </h3>
@@ -48,16 +49,38 @@
             <tbody> 
               <?php foreach ($showcases as $showcase) {?>
                 <tr>
-                  <td><a href="<?= base_url('showcases/view/'.$showcase->showcase_id); ?>">
+                  <td>
+                    <!-- <a href="<?= base_url('showcase/view/'.$showcase->showcase_id); ?>"> -->
                     <?= $showcase->showcase_id; ?>
-                  </a></td>
-                  <td><a href="<?= base_url('showcases/view/'.$showcase->showcase_id); ?>"><img style="max-width: 40px" src="<?= base_url().'/uploads/'.$showcase->showcase_thumb?>" alt=""></a></td>
-                  <td><a href="<?= base_url('showcases/view/'.$showcase->showcase_id); ?>"><?= $showcase->showcase_title; ?></a></td>
-                  <td><a href="<?= base_url('showcases/view/'.$showcase->showcase_id); ?>"><?= substr($showcase->showcase_content, 0, 30); ?></a></td>
+                  <!-- </a> -->
+                </td>
+                  <td>
+                    <!-- <a href="<?= base_url('showcase/view/'.$showcase->showcase_id); ?>"> -->
+                      <img style="max-width: 40px" src="<?= base_url().'/uploads/'.$showcase->showcase_thumb?>" alt="">
+                    <!-- </a> -->
+                    </td>
+                  <td>
+                    <!-- <a href="<?= base_url('showcase/view/'.$showcase->showcase_id); ?>"> -->
+                      <?= $showcase->showcase_title; ?>
+                    <!-- </a> -->
+                  </td>
+                  <td>
+                    <!-- <a href="<?= base_url('showcase/view/'.$showcase->showcase_id); ?>"> -->
+                      <?= substr($showcase->showcase_content, 0, 30); ?>
+                    <!-- </a> -->
+                  </td>
 
-                  <td><a href="<?= base_url('showcases/view/'.$showcase->showcase_id); ?>">$<?=  $showcase->showcase_price; ?></a></td> 
+                  <td>
+                    <!-- <a href="<?= base_url('showcase/view/'.$showcase->showcase_id); ?>"> -->
+                      $<?=  $showcase->showcase_price; ?>
+                    <!-- </a> -->
+                  </td> 
                   
-                  <td><a href="<?= base_url('showcases/view/'.$showcase->showcase_id); ?>"><?=  date_format(date_create($showcase->showcase_created_at),"d/M/y g:ia"); ?></a></td> 
+                  <td>
+                    <!-- <a href="<?= base_url('showcase/view/'.$showcase->showcase_id); ?>"> -->
+                      <?=  date_format(date_create($showcase->showcase_created_at),"d/M/y g:ia"); ?>
+                    <!-- </a> -->
+                  </td> 
                   <td>
                     <a class="btn btn-warning" href="<?= base_url('showcase/edit/'.$showcase->showcase_id); ?>">Edit</a> |  
                     <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this showcase?');" href="<?= base_url('showcase/delete/'.$showcase->showcase_id); ?>">Delete</a> 

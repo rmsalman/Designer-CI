@@ -174,7 +174,7 @@ class Plans extends CI_Controller {
 		$data['user'] = $this->session->userdata();
 
 		$data['orders'] = $this->Plans_model->get_data(ORDERS, $user , $id);
- 
+
 		$data['plan_count'] = $this->Plans_model->get_plans(PLANS_O, $user , $id);
 
 		$data['users'] = $this->Plans_model->get_designers();

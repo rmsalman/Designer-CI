@@ -25,6 +25,15 @@
 			<div class="col-sm-9"><input type="text" name="sub_title" class="form-control" value="<?= set_value('sub_title'); ?>" required="required">
 		</div>
 			<div class="clearfix"></div></div>
+
+	
+		<div class="form-group">
+			<label align="right" class="label-control col-sm-3">Orders Allowed</label>
+			<div class="col-sm-9"><input type="text" name="designs_allowed" class="form-control" value="<?= set_value('designs_allowed'); ?>" required="required">
+		</div>
+			<div class="clearfix"></div></div>
+
+
 		<div class="form-group">
 			<label align="right" class="label-control col-sm-3">Price</label>
 			<div class="col-sm-9"><input type="number" name="price" class="form-control" value="<?= set_value('price'); ?>" required="required">

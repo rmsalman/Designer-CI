@@ -13,14 +13,13 @@
 				<ul class="page-breadcrumb">
 					<li>
 						<i class="icon-briefcase"></i>
-						<a href="plans-admin.html">Plans</a>
+						<a href="<?= base_url('plans'); ?>">Plans</a>
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
 						<a href="javascript:;">Pro</a>
 					</li>
 				</ul>
-
 			</div>
 			<!-- END PAGE HEADER-->
 			<!-- BEGIN DASHBOARD STATS -->
@@ -49,12 +48,16 @@ a:hover {
 						
 						<?php 
 						$x = 1;
-
 						foreach($plan_count as $plan_counts) {
 						?>
 					    <li class="<?php if($x==1){ echo 'active';}?>">
 							<a data-toggle="tab" href="#tab_<?= $x; ?>">
-							<i class="fa fa-briefcase"></i> Plan <strong>#<?= $plan_counts->plan_order_id; ?></strong></a>
+							<i class="fa fa-briefcase"></i> Plan <strong>#<?= $plan_counts->plan_order_id; ?></strong> 
+
+							<span style="padding: 12px;height: 37px;" class="badge badge-roundless badge-danger pull-right">max orders <?= intval($plan_counts->designs_allowed) ?></span>
+
+							<span class="clearfix"></span>
+						</a>
 							<span class="after">
 							</span>
 						</li>
@@ -67,20 +70,43 @@ a:hover {
 						<?php 
 						$x = 1;
 						foreach($plan_count as $plan_counts) {
+
+if(is_user()){
+		$orders = $this->Plans_model->plan_order_id('orders', user_id() , $plan_counts->plan_order_id);
+}else {
+		$orders = $this->Plans_model->plan_order_id('orders', $this->uri->segment(4) , $plan_counts->plan_order_id);
+}
+
+
+$total_orders = count($orders);
+
+$orders_allowed = intval($plan_counts->designs_allowed);
+
+
 						?>
 
 						<div id="tab_<?= $x; ?>" class="tab-pane <?php if($x==1){ echo 'active';}?>">
 							<div id="accordion<?= $x; ?>" class="panel-group">
 
-	<?php if($usertype== 'Member'){ ?>
+	<?php if($usertype== 'Member'){ 
+
+
+if($total_orders  <= $orders_allowed -1) {
+
+		?>
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion<?= $x; ?>" href="#accordion<?= $x; ?>_1">
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion<?= $x; ?>" href="#accordion<?= $x; ?>_1_1">
 										1. Next Order Please! </a>
+											<?php if(!$plan_counts->is_paid){ ?>										
+												<a href="<?= base_url('plans/pay/'); ?>" class="pull-right btn btn-primary">Pay First</a>
+											<?php } ?>
+											<span class="clearfix"></span>
+
 										</h4>
 									</div>
-									<div id="accordion<?= $x; ?>_1" class="panel-collapse collapse in">
+									<div id="accordion<?= $x; ?>_1_1" class="panel-collapse collapse in">
 										<div class="panel-body">
 											<form class="form-horizontal" method="POST"  enctype="multipart/form-data">
 												<input type="hidden" name="user_id" value="<?= user_id(); ?>">
@@ -127,23 +153,25 @@ a:hover {
 										</div>
 									</div>
 								</div>
-								<?php } ?>
+								<?php } } ?>
 
 		<?php
 
-			
+			$y = 1+$x;
+			$z = 3+ $y;
 
+// echo $this->db->last_query();
 									foreach ($orders as $order) {
 									
 									?>
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion<?= $x; ?>" href="#accordion<?= $x; ?>_7">
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion<?= $x; ?>" href="#accordion<?= $y; ?>_<?= $x; ?>">
 										<?= $order->order_title; ?> </a>
 										</h4>
 									</div>
-									<div id="accordion<?= $x; ?>_7" class="panel-collapse collapse">
+									<div id="accordion<?= $y; ?>_<?= $x; ?>" class="panel-collapse collapse">
 
 										<div class="panel-body">
 
@@ -163,10 +191,9 @@ a:hover {
 											<h3>User Status</h3>
 											
 	<?php if($usertype== 'Member'){ ?>
+
 											<select class="form-control" name="user_status">
-												<option value="0" selected="selected">Status Paused</option>
-												<option value="1">In Progress</option>
-												<option value="2">Done</option>
+									<?php echo  status_select($order->user_status) ?>
 											</select>
 	<?php }
 	if($usertype== 'admin'){ ?>
@@ -211,9 +238,7 @@ a:hover {
 
 	<?php if($usertype== 'Designer'){ ?>
 												<select name="designer_status" class="form-control">
-													<option value="0" selected="selected">Status Paused</option>
-													<option value="1">In Progress</option>
-													<option value="2">Done</option>
+													<?= status($order->designer_status); ?>
 												</select>
 	<?php } 
 	if($usertype== 'admin'){ ?>
@@ -256,9 +281,7 @@ a:hover {
 <?php if($usertype== 'admin'){ ?>
 											<h3>Admin Status</h3>
 											<select class="form-control" name="admin_status">
-												<option value="0" selected="selected">Status Paused</option>
-												<option value="1">In Progress</option>
-												<option value="2">Done</option>
+												<?= status($order->admin_status); ?>
 											</select>
 											<h3>Admin Notes</h3>
 												<textarea rows="3" name="admin_notes" class="form-control"><?= $order->admin_notes; ?></textarea>
@@ -277,9 +300,7 @@ a:hover {
 
 												<h3>Status for Designer from Admin</h3>
 												<select name="admin_status_to_designer" class="form-control">
-													<option value="0" selected="selected">Status Paused</option>
-													<option value="1">In Progress</option>
-													<option value="2">Done</option>
+												<?= status($order->admin_status_to_designer) ?>
 												</select>
 
 												<h3>Notes For Designer</h3>
@@ -295,7 +316,8 @@ a:hover {
 									</div>
 								</div>
 								<?php
-									$x++;  }
+									$y++;
+									$z++;  }
 								 	?>
 							</div>
 						</div>

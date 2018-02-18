@@ -21,7 +21,10 @@
       ShowCase  
 
       <span class="pull-right">   
-        <a href="<?= base_url('/web/'.'showcase.php');?>" class="btn btn-info">Purchase Showcase</a>
+        <a href="<?= base_url('/web/'.'showcase.php');?>" class="btn btn-info">Purchase ShowCase</a>
+        <?php if(is_admin()) {?>
+        <a href="<?= base_url('showcase');?>" class="btn btn-info">All ShowCases</a>
+        <?php } ?>
       </span>
       <div class="clearfix"></div>
       </h3>

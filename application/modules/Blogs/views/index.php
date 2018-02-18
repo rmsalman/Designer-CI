@@ -18,7 +18,7 @@
         
       </div>
       <h3 class="page-title">
-      Inbox <small>user inbox</small> 
+      Blogs <small></small> 
 
       <span class="pull-right">   
         <a href="<?= base_url('blogs/add');?>" class="btn btn-info">Add Blog</a>

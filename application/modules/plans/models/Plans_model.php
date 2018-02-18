@@ -22,14 +22,24 @@ class Plans_model extends CI_Model {
         return $this->db->insert($table, $data);
     }
 
-	public function get_order($table, $id) {
-		$this->db->select('*');
-		$this->db->where('id',$id);;
-		$this->db->from($table);
-		$query = $this->db->get();
-		return $result = $query->result();
+    public function get_order($table, $id) {
+        $this->db->select('*');
+        $this->db->where('id',$id);;
+        $this->db->from($table);
+        $query = $this->db->get();
+        return $result = $query->result();
 
-	}
+    }
+
+    public function plan_order_id($table, $id, $plan_order_id) {
+        $this->db->select('*');
+        $this->db->where('plan_order_id',$plan_order_id);
+        $this->db->where('user_id',$id);
+        $this->db->from($table);
+        $query = $this->db->get();
+        return $result = $query->result();
+
+    }
 
 	public function get_data($table, $user_id, $id) {
 

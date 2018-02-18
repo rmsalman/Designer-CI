@@ -56,7 +56,8 @@ if($comment->comment_status == 1){
 ?>
                 <tr>
                   <td><?= $comment->comment_id; ?></td>
-                  <td><img style="max-width: 40px" src="<?= base_url().'/uploads/'.$comment->blog_thumb?>" alt=""></td>
+                  <td><?= $comment->comment_email; ?></td>
+                  <!-- <td><img style="max-width: 40px" src="<?= base_url().'/uploads/'.$comment->blog_thumb?>" alt=""></td> -->
                   <td><?= $comment->comment_name; ?></td>
                   <td><?= '#'.$comment->blog_id.' '. $comment->blog_title; ?></td>
                   <td><?= $comment->comment; ?></td>
