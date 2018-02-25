@@ -22,7 +22,7 @@ class Dashboard_model extends CI_Model {
 
    
 	public function total_orders_pending($status = '') {
-		$this->db->select(" o.order_title, o.id, o.user_status, o.admin_status, o.designer_status, o.admin_status_to_designer, p.title ,o.user_id, o.designer_id, o.plan_id, u.name, p.title as p_title, uu.name as d_name, o.created_at as o_created_at, o.updated_at as o_updated_at")
+		$this->db->select(" o.seen_designer, o.seen_admin, o.order_title, o.id, o.user_status, o.admin_status, o.designer_status, o.admin_status_to_designer, p.title ,o.user_id, o.designer_id, o.plan_id, u.name, p.title as p_title, uu.name as d_name, o.created_at as o_created_at, o.updated_at as o_updated_at")
 
         ->join('users u', 'o.user_id = u.users_id')
         ->join('users uu', 'o.designer_id = uu.users_id')
@@ -74,7 +74,7 @@ class Dashboard_model extends CI_Model {
 
 	public function orders() {
 
-		$this->db->select(" o.order_title, o.id, o.user_status, o.admin_status, o.designer_status, o.admin_status_to_designer, p.title ,o.user_id, o.designer_id, o.plan_id, u.name, p.title as p_title, uu.name as d_name, o.created_at as o_created_at, o.updated_at as o_updated_at")
+		$this->db->select(" o.seen_admin, o.seen_designer, o.order_title, o.id, o.user_status, o.admin_status, o.designer_status, o.admin_status_to_designer, p.title ,o.user_id, o.designer_id, o.plan_id, u.name, p.title as p_title, uu.name as d_name, o.created_at as o_created_at, o.updated_at as o_updated_at")
         ->join('users u', 'o.user_id = u.users_id')
         ->join('users uu', 'o.designer_id = uu.users_id')
         ->join('plans p', 'o.plan_id = p.id')

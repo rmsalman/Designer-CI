@@ -55,6 +55,12 @@ class Plans extends CI_Controller {
 		$data = $this->input->post();
 
 
+if(is_admin()){
+    $this->Plans_model->updateOrder(ORDERS, 'id', $id, array('seen_admin'=> 1)) ;
+}elseif (is_designer()) {
+    $this->Plans_model->updateOrder(ORDERS, 'id', $id, array('seen_designer'=> 1)) ;    
+}
+
 
 
                 $config = [];
@@ -80,13 +86,6 @@ class Plans extends CI_Controller {
                 if($this->upload->do_upload($uploader)){
                     $data[$uploader] = $this->upload->data('file_name');
                 }
-
-
-
-            // $error = array('error' => $this->upload->display_errors());
-            // echo '<pre>';
-            // print_r($error);
-            // echo '</pre>';
 
 
 		if(isset($data['design'])) {

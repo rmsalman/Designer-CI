@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php 
      
+  $notices = notices();
 // echo '<pre>';
 // print_r(notices());
 //      exit; 
@@ -87,6 +88,16 @@
 <![endif]-->
 
 <style>
+a.accordion-toggle {
+    display: block;
+    padding: 10px 15px;
+}
+
+.panel-heading {
+    padding: 0;
+}
+
+
 .form {
   margin-top: 0;
 }
@@ -153,17 +164,19 @@
             <li>
               <a href="inbox.html">
               <i class="icon-envelope-open"></i>Inbox 
-              <span class="badge badge-danger">
-              3 </span>
+
+<?php if(!empty($notices['all_recieved']->total)){ ?><span class="badge badge-danger"><?= $notices['all_recieved']->total; ?></span><?php } ?>
+
+
               </a>
             </li>
-            <li>
+        <!--     <li>
               <a href="<?= base_url('plans'); ?>">
               <i class="icon-briefcase"></i>Plans 
               <span class="badge badge-success">
               7 </span>
               </a>
-            </li>
+            </li> -->
             <li class="divider">
             </li>
             <li><a href="<?php echo base_url('user/profile');?>"><i class="fa fa-user mr10"></i>My Account</a></li>

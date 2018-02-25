@@ -57,28 +57,24 @@
                   <th><strong><?php if(isset($is_sent)){echo 'To';}else {echo 'From';}?></strong></th>
                   <th><strong>Message</strong></th>
                   <th><strong>Sent at</strong></th>
+                 <?php if(is_admin()){ ?> <th><strong>Actions</strong></th> <?php }?>
                 </tr>
               </thead>
 
             <tbody> 
               <?php foreach ($allmsgs as $msg) {
-
-$r_class = $d_class = '';
+                $r_class = $d_class = '';
                 if(is_user() && $msg->read_status == 0){ $r_class = "unread"; $d_class = "view-message"; }
                 if(is_admin() && $msg->read_status_admin == 0){ $r_class = "unread"; $d_class = "view-message"; }
                 if(is_designer() && $msg->read_status_designer == 0){ $r_class = "unread"; $d_class = "view-message"; }
-
-
-// echo '<pre>';
-// print_r($msg);
-
-// echo '</pre>';
-// exit;
                 ?>
                 <tr class="<?= $r_class ?>">
                   <td class="<?= $d_class ?>" ><a href="<?= base_url('mailbox/view/'.$msg->mailbox_id); ?>"><?= $msg->name; ?></a></td>
                   <td class="<?= $d_class ?>"><a href="<?= base_url('mailbox/view/'.$msg->mailbox_id); ?>"><?= substr($msg->message, 0, 30); ?></a></td>
                   <td class="<?= $d_class ?>"><a href="<?= base_url('mailbox/view/'.$msg->mailbox_id); ?>"><?=  date_format(date_create($msg->msg_created_at),"d/M/y g:ia"); ?></a></td> 
+                  <?php if(is_admin()){ ?><td>
+                    <a href="<?= base_url('mailbox/index/delete/'.$msg->mailbox_id); ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Message?');">Delete</a>
+                  </td><?php } ?>
                 </tr>
               <?php } ?> 
             </tbody>

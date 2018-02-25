@@ -9,14 +9,14 @@ class Mailbox extends CI_Controller {
 	}
 
 
-  	public function index() {   
+  	public function index($delete ='', $id='') {   
   		$data = [];
- 		$data['allmsgs'] = $this->Mailbox_model->allmsgs(user_id());
+        if (isset($delete) && isset($id) && is_admin() )
+        {
+	        $this->db->where('mailbox_id', $id)->delete('mailbox'); 
+        }
 
-// echo $this->db->last_query();
-// echo '<pre>';
-// print_r($data['allmsgs']);
-// exit;
+ 		$data['allmsgs'] = $this->Mailbox_model->allmsgs(user_id());
 
         $this->load->view('include/header', $data); 
         $this->load->view('index');

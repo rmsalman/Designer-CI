@@ -61,6 +61,29 @@ class Public_model extends CI_Model {
 		$query = $this->db->get();
 		return $result = $query->result();
 	}
+   
 
+	public function oders_by_status_by_designer($status='') {
+		$this->db->select("COUNT('*') as orders");
+			if (user_type() == 'admin') {
+		 		$this->db->where('designer_status', $status);
+			}
+		$this->db->from('orders');
+		$query = $this->db->get();
+		return $result = $query->row();
+	}
+
+
+    public function insert_public($table, $data)
+    {
+        return $this->db->insert($table, $data);
+    }
+
+
+  	public function update_public ($table, $col, $colVal, $data) {
+  		$this->db->where($col,$colVal);
+		$this->db->update($table,$data);
+		return true;
+  	}
 
 }

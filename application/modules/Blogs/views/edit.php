@@ -44,7 +44,7 @@
       
     </div>
     <h3 class="page-title">
-    Add Blog  
+    Edit Blog  
     </h3>
   
   <form action="<?= base_url('blogs/edit/'.$this->uri->segment(3)); ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
@@ -85,7 +85,7 @@
     <div class="form-group">
       <label class="control-label col-sm-3"></label>
       <div class="col-sm-9">
-        <button name="add_blog" class="btn btn-primary">Add Blog</button>
+        <button name="add_blog" class="btn btn-primary">Edit Blog</button>
       </div>
       <div class="clearfix"></div>
     </div>

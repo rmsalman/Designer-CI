@@ -22,7 +22,7 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body">           
-            <table id="example1" class="cell-border example1 table table-striped table1 delSelTable">
+            <table id="example11" class="cell-border example1 table table-striped table1 delSelTable">
               <thead>
                 <tr>
                   <th><input type="checkbox" class="selAll"></th>
@@ -30,10 +30,66 @@
 									<th>Name</th>
 									<th>Email</th>
                   <th>Type</th>
+                  <th>Paid</th>
+                  <th>Dues</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
+<?php 
+
+$users = get_users();
+
+
+ foreach ($users as $user) {
+
+ $users_status = $this->User_model->users_stats($user->users_id, 1);
+ $users_status_due = $this->User_model->users_stats($user->users_id, 0);
+
+ $users_stats_so = $this->User_model->users_stats_so($user->users_id, 1);
+ // echo $this->db->last_query();
+ // break;
+ $users_stats_so_due = $this->User_model->users_stats_so($user->users_id, 0);
+
+
+
+   ?>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="selData" value="<?= $user->users_id; ?>">
+                  </td>
+                  <td>
+                      <?= $user->status; ?>
+                  </td>
+                  <td>
+                      <?= $user->name; ?>
+                  </td>
+                  <td>
+                      <?= $user->email; ?>
+                  </td>
+                  <td>
+                    <?= $user->user_type; ?>
+                  </td>
+                  <td>
+
+                    <?=   $users_stats_so->total_priced + $users_status->total_priced; ?>
+                  </td>
+                  <td>
+                    <?= $users_stats_so_due->total_priced + $users_status_due->total_priced; ?>
+                  </td>
+                  <td>
+                    <a id="btnEditRow" class="modalButtonUser mClass" href="javascript:;" type="button" data-src="<?= $user->users_id; ?>" title="Edit">
+                      <i class="fa fa-pencil" data-id=""></i>
+                    </a>
+                  <a style="cursor:pointer;" data-toggle="modal" class="mClass" onclick="setId(<?= $user->users_id; ?>, 'user')" data-target="#cnfrm_delete" title="delete">
+                    <i class="fa fa-trash-o"></i>
+                  </a>
+                </td>
+              </tr>
+
+<?php
+ }
+ ?>
               </tbody> 
             </table>
           </div>
@@ -62,6 +118,9 @@
 </div><!--End Modal Crud --> 
 <script type="text/javascript">
   $(document).ready(function() {  
+
+$('#example11').DataTable();
+
     var url = '<?php echo base_url();?>';//$('.content-header').attr('rel');
     var table = $('#example1').DataTable({ 
           dom: 'lfBrtip',

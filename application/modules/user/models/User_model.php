@@ -130,4 +130,30 @@ class User_model extends CI_Model {
 		$this->db->update($table,$data);
 		return true;
   	}
+
+
+  	public function users_stats($id, $status) {
+		return $this->db
+  		->select('SUM(p.price) AS total_priced')
+  		->join('users u','po.user_id = u.users_id')
+  		->join('plans p','po.plan_id = p.id')
+  		->from('plan_orders po')
+  		->where('po.user_id = '.$id )
+  		->where('po.is_paid = '.$status)
+  		->get()->row();
+  		
+  	}
+
+  	public function users_stats_so($id, $status) {
+		return $this->db
+  		->select('SUM(s.showcase_price) AS total_priced')
+  		->join('showcases s','so.so_s_id = s.showcase_id')
+  		->from('showcase_orders so')
+  		->where('so.so_user_id = '.$id)
+  		->where('so.so_is_paid = '.$status)
+  		->get()->row();
+  	}
+
+
+
 }

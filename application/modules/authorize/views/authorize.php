@@ -1,16 +1,29 @@
- <div class="container-fluid">
+<div class="page-content-wrapper">
+    <div class="page-content">
+      
+      <!-- BEGIN PAGE HEADER-->
+      <div class="page-bar">
+        <ul class="page-breadcrumb">
+          <li>
+            <i class="fa fa-home"></i>
+            <a href="<?= base_url('dashboard');?>">Dashboard</a>
+          </li>
+        </ul>
 
+      </div>
+      <h3 class="page-title">
+      Dashboard <small>reports &amp; statistics</small>
+      </h3>
+      <!-- END PAGE HEADER-->
+
+
+       <div class="container-fluid">
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Authorize Payment Integration
                         </h1>
-                        <ol class="breadcrumb">
-                            <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
-                            </li>
-                        </ol>
                     </div>
                 </div>
                 <!-- /.row -->
@@ -18,8 +31,27 @@
                 <div class="row">
                     <div class="col-lg-12">
                        <h3>Customer Information</h3>
+  <?php 
+  if(isset($result) && !empty($result)){
+  ?>
+    <p style="color: red"><?= $result['message']; ?></p>
+  <?php
+  }
+   ?>
+
         <p>
             <form method="post" action="<?php echo base_url().'authorize/pushPayment';?>">
+                
+              <?php 
+                if(!empty($item) && !empty($id)){
+                  ?>
+                    <input type="hidden" value="<?= $item; ?>" name="item">
+                    <input type="hidden" value="<?= $id; ?>" name="id">
+                  <?php
+                }
+
+               ?>
+
               <div class="form-group">
                 <label for="fname">First Name</label>
                 <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter First Name" value="Barry"  >
@@ -84,10 +116,23 @@
                 <label for="cdesc">Description</label>
                 <input type="text" class="form-control" id="cdesc" name="cdesc" placeholder="Enter Description" value="Test payment gateway"  >
               </div>
-              <div class="form-group">
+
+  
+              <?php 
+                if(!empty($price)){
+                  ?>
+                  <input type="hidden" class="form-control" id="camount" name="camount" placeholder="Enter Amount" value="<?= intval($price); ?>"  >
+        <?php }else{
+?>
+      <div class="form-group">
                 <label for="camount">Amount</label>
                 <input type="text" class="form-control" id="camount" name="camount" placeholder="Enter Amount" value="35.6"  >
               </div>
+
+
+<?php
+        } ?>
+
               <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </p>
@@ -97,3 +142,5 @@
             </div>
             <!-- /.container-fluid -->
             
+
+            </div></div>

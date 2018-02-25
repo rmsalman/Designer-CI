@@ -477,8 +477,58 @@ function dash_notices(){
 }
 
 
+	 function user_stats($status, $id) {
+	$CI = get_instance();
 
 
+
+		 $CI->db
+  		->select('SUM(p.price) AS total_priced')
+  		->join('users u','po.user_id = u.users_id')
+  		->join('plans p','po.plan_id = p.id')
+  		->from('plan_orders po');
+
+
+  		if(!empty($id)){
+  			$CI->db->where('po.user_id = '.$id);
+  		}
+
+  		return $CI->db->where('po.is_paid = '.$status)->get()->row();
+
+  		
+  	}
+  	 function users_stats_so($status, $id = '') {
+	$CI = get_instance();
+		 $CI->db
+  		->select('SUM(s.showcase_price) AS total_priced')
+  		->join('showcases s','so.so_s_id = s.showcase_id')
+  		->from('showcase_orders so');
+
+  		if(!empty($id)){
+  			$CI->db->where('so.so_user_id = '.$id);
+  		}
+
+  		return $CI->db->where('so.so_is_paid = '.$status)->get()->row();
+  	}
+
+
+  	function seen_status($status, $content = '', $title='') {
+  		if($status == 0){
+
+  			if(empty($title) ){
+  				$title = 'Not Seen';
+  			}
+  			$response = '<span style="opacity:0;font-size:0;">0</span><span title="'.$title.'" style="height: 37px;display: block;width: 100%;" class="badge badge-roundless badge-danger pull-right">'.$content.'</span>';
+  		}elseif ($status == 1) {
+
+  			if(empty($title)){
+  				$title = 'Seen';
+  			}
+  			$response = '<span style="opacity:0;font-size:0;">1</span><span title="'.$title.'" style="height: 37px;display: block;width: 100%;" class="badge badge-roundless badge-success pull-right">'.$content.'</span>';
+  		}
+  		return $response;
+
+  	}
 
 
 ?>

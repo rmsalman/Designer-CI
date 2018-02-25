@@ -1,4 +1,15 @@
+<style>
+	.ver-inline-menu li {
+    margin-right: 15px;
+    min-width: 230px;
+    display: inline-block;
+}
 
+ul.ver-inline-menu.margin-bottom-10 {
+    overflow: hidden;
+    text-align: center;
+}
+</style>
 		<?php
 									foreach ($orders as $order) {
 
@@ -134,7 +145,7 @@
 <br>
 												<p><strong>Status for Designer from Admin</strong></p>
 												<select name="admin_status_to_designer" class="form-control">
-													<?= status_select($order->notes_admin_to_designer); ?>
+													<?= status_select($order->admin_status_to_designer); ?>
 												</select>
 <br>
 												<p><strong>Notes For Designer</strong></p>

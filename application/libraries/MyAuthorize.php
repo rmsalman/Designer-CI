@@ -63,14 +63,16 @@ class MyAuthorize {
 		    $tresponse = $response->getTransactionResponse();
 
 		    if (($tresponse != null) && ($tresponse->getResponseCode()=="1") ) {
-		      echo "Charge Credit Card AUTH CODE : " . $tresponse->getAuthCode() . "\n";
-		      echo "Charge Credit Card TRANS ID  : " . $tresponse->getTransId() . "\n";
+
+		    	return $arrayName = array('message' => "Charge Credit Card AUTH CODE : " . $tresponse->getAuthCode() . "\n"."Charge Credit Card TRANS ID  : " . $tresponse->getTransId() . "\n", 'status' => true, 'code' => $tresponse->getResponseCode() );
 		    }else{
-		        echo  "Charge Credit Card ERROR :  Invalid response\n";
+		    	return $arrayName = array('message' => "Charge Credit Card ERROR :  Invalid response\n", 'status' => false, 'code' => $tresponse->getResponseCode());
 		    }
 
 		} else{
-		      echo  "Charge Credit card Null response returned";
+
+		    	return $arrayName = array('message' => "Charge Credit card Null response returned", 'status' => false, 'code' => $tresponse->getResponseCode());
+
 		}
 	}
 }

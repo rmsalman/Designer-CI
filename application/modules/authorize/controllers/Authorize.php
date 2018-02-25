@@ -8,15 +8,19 @@ class Authorize extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->library("myauthorize");
-			
+		$this->load->model('Public_model');			
 	}
 
-	public function index()
+	public function index($item = '', $id = '', $price='')
 	{				
-		$this->load->view('authorize');
+
+        $this->load->view('include/header'); 
+        $this->load->view('authorize', compact('item', 'id', 'price'));
+        $this->load->view('include/footer');
 	}
 
 	public function pushPayment(){
+		$data = [];
 		$dataCustomers=array("fname"=>$this->input->post('fname'),
 							 "lname"=>$this->input->post('lname'),
 							 "address"=>$this->input->post('address'),
@@ -30,8 +34,47 @@ class Authorize extends CI_Controller {
 							 "cexpdate"=>$this->input->post('cexpdate'),
 							 "ccode"=>$this->input->post('ccode'),
 							 "cdesc"=>$this->input->post('cdesc'),
-							 "amount"=>$this->input->post('camount'));		
-		$result = $this->myauthorize->chargerCreditCard($dataCustomers);
-		echo $result;
+							 "amount"=>$this->input->post('camount'));
+
+		$data['result'] = $result = $this->myauthorize->chargerCreditCard($dataCustomers);
+		$item = '';
+		$id = '';
+
+
+			if(!empty($this->input->post('item')) && !empty($this->input->post('id'))){
+				$item = $this->input->post('item');
+				$id   = $this->input->post('id');
+			}
+
+		if($result['status'] == true){
+
+			if(!empty($this->input->post('item')) && !empty($this->input->post('id'))){
+				$item = $this->input->post('item');
+				$id   = $this->input->post('id');
+				if($item == 'plan'){
+	   					$this->Public_model->update_public('plan_orders', 'id', $id, array('is_paid'=>1));
+				}
+				elseif 
+				($item == 'showcase') {
+					$this->Public_model->update_public('showcase_orders', 'so_id', $id, array('so_is_paid'=>1));
+				}
+			}
+
+		        $this->load->view('include/header'); 
+		        $this->load->view('thanks', $data);
+		        $this->load->view('include/footer');
+
+		}else {
+
+		        $this->load->view('include/header'); 
+		        $this->load->view('authorize', compact('item', 'id', 'result'));
+		        $this->load->view('include/footer');
+
+		}
+
+
+
+
+
 	}	
 }

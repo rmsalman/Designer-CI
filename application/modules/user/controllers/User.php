@@ -307,6 +307,7 @@ class User extends CI_Controller {
      * @return Void
      */
     public function add_edit($id='') {   
+        $name = '';
         $data = $this->input->post();
         $profile_pic = 'user.png';
         if($this->input->post('users_id')) {

@@ -37,7 +37,7 @@
     <div class="page-bar">
       <ul class="page-breadcrumb">
         <li>
-          <i class="icon-envelope"></i>
+          <i class="fa fa-suitcase"></i>
           <a href="<?= base_url('showcase'); ?>">ShowCase</a>
         </li>
       </ul>

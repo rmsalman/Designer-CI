@@ -42,6 +42,25 @@ a:hover {
 								<!-- Pricing -->
 								<?php 
 								foreach ($all_plans as $plan) {
+
+
+// echo '<pre>';
+
+// $date1 = new DateTime("2016-01-01");  //current date or any date
+//   $date2 = new DateTime("2016-12-31");   //Future date
+//   $diff = $date2->diff($date1)->format("%a");  //find difference
+//   $days = intval($diff);   //rounding days
+//   echo $days;
+//   //it return 365 days omitting current day
+
+// print_r($plan);
+// echo '</pre>';
+// plan_exp
+
+
+
+
+
 								?>
 								<div class="col-md-3">
 									<div class="pricing hover-effect"><a href="<?= base_url('plans/plandetail/'.$plan->plan_id.'/'.$this->uri->segment(3))?>">
@@ -51,7 +70,7 @@ a:hover {
 											</h3>
 											<h4><i>$</i><?= $plan->price; ?><i></i> <i>X</i> <?= $plan->counter ?>
 											<span>
-											Per Month </span>
+											For <?= $plan->plan_exp; ?> Days </span>
 											</h4>
 										</div>
 
